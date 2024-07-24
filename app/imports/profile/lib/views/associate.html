@@ -1,0 +1,216 @@
+<!-- Contains info on the associated provider/user -->
+
+<template name="tmplAssociate">
+    {{#if Template.subscriptionsReady}}
+        <ol class="breadcrumb" id="breadcrumb">
+          <li><a href="/">{{_"m_home"}}</a></li>
+          <li><a href="/associates">{{assocTxt}}</a></li>
+          <li class="active">{{assocFullname}}</li>
+        </ol>
+        <div id="assoc-container" class="container-fluid">
+          {{#each assocUser}}
+		  	<br>
+            <div class="row">
+      				<div class="panel panel-default background">
+      					<div class="panel-body">
+      						<center>
+      							<img src={{imageUrl profile.user.photo}} class="img-responsive" />
+      							<h3 class="mainh3">{{profile.user.name}} {{profile.user.surname}}</h3>
+      						</center>
+                        {{#unless isProvider}}
+                          <a class="btn btn-success" href="{{bookingLink}}">{{_"booknow"}}</a>
+                        {{/unless}}
+      						<a href="#" class="pull-right btn btn-sm btn-info questionBtn" title='{{_"ap_questions"}}'><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                  {{#unless isProvider}}
+                    <a href="#" class="pull-right">&nbsp;&nbsp;</a>
+                    <a href={{publicProfile}} class="pull-right btn btn-sm btn-info" title='{{_"profile"}}'><i class="fa fa-user" aria-hidden="true"></i></a>
+                  {{/unless}}
+                  <a href="#" class="pull-right">&nbsp;&nbsp;</a>
+                  {{#if hasMessages}}
+                    <a href="#" class="pull-right btn btn-sm btn-info messageBtn" title='{{_"ap_sendmessage"}}'><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                  {{/if}}
+      					</div>
+      				</div>
+            </div>
+
+            {{#if isProvider}}
+            <!-- user panels (how a provider views an associated user) -->
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"as_uinfo"}}</h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+          							<span>{{_"as_gender"}}: </span>{{userGender profile.user.gender}}
+          						</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"as_notes"}}&nbsp;<small>{{_"as_invu"}}</small></h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+                        <form class="private-notes">
+                          <textarea name="textarea" rows="5" cols="40">{{privateNotes}}</textarea>
+                          <input type="submit" class="pull-right btn btn-sm btn-info noteBtn" name="submit" value='{{_"savenotes"}}'>
+                        </form>
+          						</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="{{row2cols}}">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"appointments"}}</h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+          							{{> tmplAssocAppointments}}
+          						</div>
+                    </div>
+                    <div class="panel-footer">
+                      <a href="{{apptsUrl}}" class="pull-right btn-sm btn-info">{{_"as_more"}}</a>
+                    </div>
+                  </div>
+                </div>
+                {{#if hasFiles}}
+                  <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default provider-panel">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">{{_"as_shared"}}</h3>
+                      </div>
+                      <div class="panel-body">
+  						          <div>
+                        		{{> tmplAssocFiles}}
+  						          </div>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+			  <br>
+            <!-- if user -->
+            {{else}}
+              <!-- provider panels (how a user views an associated provider) -->
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"profile_spec_title"}}</h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+                        <ul>
+                          <li><label>{{_"specialities"}}: </label>
+                            {{specialities}}</li>
+                          <li><label>{{_"expertise"}}:</label>
+                            {{dataSplit profile.provider.expertise}}</li>
+                          <li><label>{{_"price"}}: </label>
+                            € {{profile.provider.price}}</li>
+                          <li><label>{{_"duration"}}: </label>
+                            {{profile.provider.schedule.duration}}</li>
+                        </ul>
+          						</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"as_notes"}}&nbsp;<small>{{_"as_invp"}}</small></h3>
+                    </div>
+                    <div class="panel-body">
+                      <div>
+                        <form class="private-notes">
+                          <textarea name="textarea" rows="5" cols="40">{{privateNotes}}</textarea>
+                          <input type="submit" class="pull-right btn btn-sm btn-info noteBtn" name="submit" value='{{_"savenotes"}}'>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="{{row2cols}}">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"appointments"}}</h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+          							{{> tmplAssocAppointments}}
+          						</div>
+                    </div>
+                    <div class="panel-footer">
+                      <a href="{{apptsUrl}}" class="pull-right btn btn-sm btn-info">{{_"as_more"}}</a>
+                    </div>
+                  </div>
+                </div>
+                {{#if hasFiles}}
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default provider-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{_"as_shared"}}</h3>
+                    </div>
+                    <div class="panel-body">
+          						<div>
+          							{{> tmplAssocFiles}}
+          						</div>
+                    </div>
+                    <div class="panel-footer">
+                      {{#unless isProvider}}
+                        <a href="{{filesUrl}}" class="pull-right btn btn-sm btn-info">{{_"as_managef"}}</a>
+                      {{/unless}}
+                    </div>
+                  </div>
+                </div>
+                {{/if}}
+              </div>
+              <div class="row">
+                &nbsp;
+              </div>
+            {{/if}}
+          {{/each}}
+
+        </div>
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>
+
+
+<template name="tmplAssocAppointments">
+    <ul class="list-group">
+      {{#if assocBookings}}
+        {{#each assocBookings}}
+          <a href="#">
+              <li class="list-group-item list-group-item-{{rowClass}} list-item-appointment"><span>{{startTime}}</span><span class="pull-right">{{_"ap_status"}}: {{i18nStatus status}}{{{actionIcon}}}</span></li>
+          </a>
+        {{/each}}
+        <br>
+        <!--<a href="{{apptBtn}}" class="btn btn-default">{{_"all_appointments"}}</a>-->
+      {{else}}
+        <span>{{_"no_appointments"}}</span>
+      {{/if}}
+    </ul>
+</template>
+
+
+<template name="tmplAssocFiles">
+    <ul class="list-group">
+      {{#each file in assocFiles}}
+          <a href="{{file.url}}" target="_blank">
+              <li class="list-group-item list-item-file"><span>{{file.name}} <small>({{file.type}})</small></span><span class="pull-right">{{_"as_uploaded"}}: {{uplDate file.uploadedOn}}</span></li>
+          </a>
+      {{else}}
+        <span>{{_"as_nofiles"}}</span>
+      {{/each}}
+    </ul>
+</template>

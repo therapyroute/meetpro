@@ -1,0 +1,80 @@
+<template name="tmplFiles">
+  {{#if hasFiles}}
+      <ol class="breadcrumb" id="breadcrumb">
+        <li><a href="/">{{_"m_home"}}</a></li>
+        <li class="active">{{_"sb_files"}}</li>
+      </ol>
+        <h3>
+          {{_"fl_title"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_files_hover"}}'></i>
+        </h3>
+        {{#if Template.subscriptionsReady}}
+            <div class="row">
+                <div class="container-fluid">
+                    {{#if userOwnFiles}}
+                      <div class="table-responsive">
+                        {{> reactiveTable collection=userOwnFiles settings=tblSettings fields=displayedFields class="table table-striped table-bordered table-condensed"}}
+                      </div>
+                    {{else}}
+                        <h5>{{_"fl_none"}}</h5>
+                        <blockquote>
+                          <p class="lead">{{_"fl_none_msg"}}</p>
+                        </blockquote>
+                    {{/if}}
+                </div>
+            </div>
+        {{else}}
+            <div class="loading">{{> spinner}}</div>
+        {{/if}}
+
+        <div class="row">
+            <div class="container-fluid">
+                <h5>{{_"fl_upload"}}</h5>
+                <input type="file" name="imageInput" class="file myFileInput jqUploadclass" data-form-data={{submitData}}/>
+                <p class="help-block">{{_"fl_choose"}}</p>
+            </div>
+        </div>
+  {{else}}
+    {{> tmplNotPermitted}}
+  {{/if}}
+</template>
+
+
+<template name="tmplAssignModal">
+    <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="container-fluid">
+                <div class="modal-header">
+                    <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="">{{_"fl_share"}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{#if Template.subscriptionsReady}}
+                          {{#if noProviders}}
+                            <h3>{{_"as_noneut"}}</h3>
+                            <blockquote>
+                              <p class="lead">{{{_"as_noneu"}}}</p>
+                            </blockquote>
+                          {{else}}
+                            <select class="input providerId" id="providerSelect2" style="width: 100%">
+                                {{#each provider in getProviders}}
+                                    <option value="{{provider._id}}" {{isSelected provider._id}}>{{provider.profile.user.name}} {{provider.profile.user.surname}} ({{provider.specs}})</option>
+                                {{/each}}
+                            </select>
+                          {{/if}}
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{#if isShared}}
+                        <button type="button" class="btn btn-danger stopSharing">{{_"fl_stop"}}</button>
+                    {{/if}}
+                    <button type="button" class="btn btn-success shareButton" data-dismiss="modal" disabled="{{noProviders}}">{{_"fl_share"}}</button>
+                    <button type="button" class="btn btn-info closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</template>

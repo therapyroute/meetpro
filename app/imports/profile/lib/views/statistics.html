@@ -1,0 +1,321 @@
+<template name="highchartsHelper">
+  <div id="{{chartId}}" style="height: {{chartHeight}}; width: {{chartWidth}}"></div>
+</template>
+
+<template name="tmplStatisticsAdminDashboard">
+  {{#if isSuperAdmin}}
+    <div class="row">
+      <div class="col-md-12">
+        {{> tmplStatisticsTotalsSuperAdmin}}
+      </div>
+    </div>
+  {{/if}}
+  <div class="row">
+    <div class="col-md-12">
+      {{> tmplStatisticsTotals}}
+    </div>
+  </div>
+  <div class="row">
+    <h4 style="margin-left: 15px;">{{_"st_graphs_title"}}</h4>
+    <div class="col-md-6">
+      {{> tmplStatisticsAppointments}}
+    </div>
+    <div class="col-md-6">
+      {{> tmplStatisticsMoney}}
+    </div>
+  </div>
+</template>
+
+<template name="tmplStatistics">
+    <ol class="breadcrumb" id="breadcrumb">
+      <li><a href="/">{{_"m_home"}}</a></li>
+      <li class="active">{{_"sb_stats"}}</li>
+    </ol>
+    <h3>
+      {{_"st_title"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_stats_hover"}}'></i>
+    </h3>
+    {{#if isAdmin}}
+      <div class="row">
+          <div class="form-group">
+            <label for="userId" class="col-sm-2 control-label">{{_"ap_user"}}</label>
+            <div class="col-sm-3">
+            <select id='userId' name='userId' class="user-filter" style="width: 100%">
+              <option></option>
+              {{#each pr in allUsers}}
+                <option value={{pr.value}}>{{pr.label}}</option>
+              {{/each}}
+            </select>
+            </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if isSuperAdmin}}
+      <div class="row">
+        <div class="col-md-12">
+          {{> tmplStatisticsTotalsSuperAdmin}}
+        </div>
+      </div>
+    {{/if}}
+    <div class="row">
+      <div class="col-md-12">
+        {{> tmplStatisticsTotals}}
+      </div>
+    </div>
+    <div class="row">
+      <h4 style="margin-left: 15px;">{{_"st_graphs_title"}}</h4>
+      <div class="col-md-6">
+        {{> tmplStatisticsAppointments}}
+      </div>
+      <div class="col-md-6">
+        {{> tmplStatisticsMoney}}
+      </div>
+    </div>
+    <div class="row" style="margin-top: 15px;">
+      <div class="col-md-12">
+        {{> tmplStatisticsTable}}
+      </div>
+    </div>
+</template>
+
+<template name="tmplStatisticsTotals">
+  {{#if hasStats}}
+    <div class="panel panel-default totals-panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="fa-lg"><i class="fa fa-line-chart"></i></span>&nbsp;&nbsp;
+          {{_"st_totals_title"}}
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-4">{{_"st_total_ap"}}</div>
+          <div class="col-md-8">{{apptsNo}}</div>
+        </div>
+        {{#unless isAdmin}}
+        <div class="row">
+          <div class="col-md-4">{{_"st_total_as"}}</div>
+          <div class="col-md-8">{{assocNo}}</div>
+        </div>
+        {{/unless}}
+        <div class="row">
+          <div class="col-md-4">{{strMoney}}</div>
+          <div class="col-md-8">€&nbsp;{{sumMoney}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">{{_"st_total_call"}}</div>
+          <div class="col-md-8">{{totalDuration}}</div>
+        </div>
+        {{#with hasUsage}}
+          <p><b>{{_"usage_title"}}</b></p>
+          <div class="row">  
+            <div class="col-md-4">{{_"sb_experts2"}}</div>
+            <div class="col-md-8">{{experts}} of {{expertLimit}}</div>
+          </div>
+          <div class="row">  
+            <div class="col-md-4">{{_"monthly_appointments"}}</div>
+            <div class="col-md-8">{{appointments}} of {{appointmentLimit}}</div>
+          </div>
+        {{/with}}
+      </div>
+      <div class="panel-footer">
+      </div>
+    </div>
+
+  {{else}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="fa-lg"><i class="fa fa-line-chart"></i></span>&nbsp;&nbsp;
+          {{_"st_title"}}
+        </h3>
+      </div>
+      <div class="panel-body">
+        <h5>{{_"st_nostats"}}</h5>
+      </div>
+      <div class="panel-footer">
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="tmplStatisticsTotalsSuperAdmin">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="fa-lg"><i class="fa fa-line-chart"></i></span>&nbsp;&nbsp;
+          {{_"st_totals_title"}} (SuperAdmin)
+        </h3>
+      </div>
+      
+      <div class="panel-body">
+        {{#if appStats}}
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-hover table-bordered table-striped">
+                <thead>
+                  <tr>
+                  <th>{{_"my_apps"}}</th>
+                  <th>{{_"sb_users2"}}</th>
+                  <th>{{_"sb_experts2"}}</th>
+                  <th>{{_"appointments"}}</th>
+                  <th>{{_"duration"}}</th>
+                  <th>{{_"inv_income"}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {{#each app in appStats}}
+                  <tr>
+                    <td>{{app.apps}}</td>
+                    <td>{{app.users}}</td>
+                    <td>{{app.experts}}</td>
+                    <td>{{app.appts}}</td>
+                    <td>{{duration2str app.calls}}</td>
+                    <td>{{app.income}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {{else}}
+          <div class="row">
+            <h5>{{_"st_nostats"}}</h5>            
+          </div>
+        {{/if}}
+      </div>
+      <div class="panel-footer">
+      </div>
+    </div>
+</template>
+
+<template name="tmplStatisticsAppointments">
+  <div id="appointments-container" style="width: 100%; height: 100%;"></div>
+  {{#if hasYears}}
+    <div class="form-group" style="margin-top: 5px;">
+    <label class="col-sm-6 control-label" style="margin-top: 7px;">{{_"st_sel_year"}}</label>
+      <div class="col-sm-6">
+        <select data-filter class="form-control" name="year" style="width: 50%;">
+          {{#each apptYears}}
+            <option value="{{this.value}}" {{this.selected}}>{{this.value}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="tmplStatisticsMoney">
+  <div id="income-container" style="width: 100%; height: 100%;"></div>
+  {{#if hasYears}}
+    <div class="form-group" style="margin-top: 5px;">
+    <label class="col-sm-6 control-label" style="margin-top: 7px;">{{_"st_sel_year"}}</label>
+      <div class="col-sm-6">
+        <select data-filter class="form-control" name="year" style="width: 50%;">
+          {{#each apptYears}}
+            <option value="{{this.value}}" {{this.selected}}>{{this.value}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="tmplStatisticsTable">
+  {{#if tableData}}
+    <h4>{{_"st_table_title"}}</h4>
+    <table class="table table-condensed table-striped table-hover" style="margin-bottom: 10px;">
+      <thead class="info">
+        <tr>
+          <th>{{_"st_month"}}</th><th>{{_"st_net"}}</th>
+          <!--<th>{{_"st_perc"}}</th><th>{{_"st_net"}}</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        {{#each row in tableData}}
+          <tr>
+            <td>{{row.name}}</td>
+            <td>{{row.gross}}</td>
+            <!--<td>{{row.commision}}</td>
+            <td>{{row.net}}</td>-->
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if hasYears}}
+      <div class="form-group" style="margin-top: 5px;">
+      <label class="col-sm-6 control-label" style="margin-top: 7px;">{{_"st_sel_year"}}</label>
+        <div class="col-sm-6">
+          <select data-filter class="form-control" name="year" style="width: 50%;">
+            {{#each apptYears}}
+              <option value="{{this.value}}" {{this.selected}}>{{this.value}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    {{/if}}
+    <br><br>
+  {{/if}}
+</template>
+
+<template name="tmplStatisticsTotalsDashboard">
+  {{#if hasStats}}
+      <div class={{columns}}>
+        <div class="small-box bg-aqua stats">
+          <a href="/bookings">
+            <div class="inner">
+              <h3>{{apptsNo}}</h3>
+              <p>{{_"st_total_ap"}}</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+        </div>
+      </div>
+      <div class={{columns}}>
+        <div class="small-box bg-green">
+          <a href="/associates">
+            <div class="inner">
+              <h3>{{assocNo}}</h3>
+              <p>{{_"st_total_as"}}</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+        </div>
+      </div>
+      <div class={{columns}}>
+        <div class="small-box bg-yellow">
+          <a href="/bookings">
+            <div class="inner">
+              <h3>{{totalDuration}}</h3>
+              <p>{{_"st_total_call"}}</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+        </div>
+      </div>
+      {{#if isProvider}}
+      <div class={{columns}}>
+        <div class="small-box bg-red">
+          <a href='/statistics'>
+            <div class="inner">
+              <h3>{{sumMoney}}</h3>
+              <p>{{strMoney}}</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+        </div>
+      </div>
+      {{/if}}
+  {{/if}}
+</template>

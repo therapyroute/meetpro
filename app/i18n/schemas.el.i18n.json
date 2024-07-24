@@ -1,0 +1,195 @@
+{
+  "schemas": {
+    "users": {
+      "profile": {
+        "user": {
+          "name": {
+            "label": "Όνομα"
+          },
+          "surname": {
+            "label": "Επώνυμο"
+          },
+          "gender": {
+            "label": "Φύλο"
+          },
+          "mobile": {
+            "label": "Κινητό τηλ."
+          },
+          "allowed_notifications": {
+            "label": "Επιτρεπόμενες ειδοποιήσεις"
+          },
+          "email_notifications": {
+            "label": "Αποστολή email κατά τη λήψη προσωπικού μηνύματος"
+          }
+        },
+        "provider": {
+          "short_bio": {
+            "personal": {
+              "label": "Προσωπικές πληροφορίες",
+              "placeholder": "Συμπληρώστε μερικές πληροφορίες για εσάς, οι οποίες θα εμφανίζονται στο προφίλ σας (έως 1000 χαρακτήρες)"
+            }
+          },
+          "price": {
+            "label": "Τιμή",
+            "placeholder": "Εισάγετε την τιμή ανά ραντεβού"
+          },
+          "displayRating": {
+            "label": "Εμφανίση της μέσης βαθμολογίας μου στο δημόσιο προφίλ μου"
+          },
+          "address": {
+            "label": "Διεύθυνση"
+          },
+          "allowf2f": {
+            "label": "Να επιτρέπονται τα ραντεβού πρόσωπο με πρόσωπο;"
+          },
+          "viva": {
+            "VP": { "label": "Πληρωμές Viva" },
+            "VP_PUBLIC_KEY": { "label": "Δημόσιο κλειδί", "placeholder": "" },
+            "VP_MERCHANT_ID": { "label": "Ταυτότητα εμπόρου", "placeholder": "" },
+            "VP_API_KEY": { "label": "Κλειδί API", "placeholder": "" },
+            "VP_SOURCE": { "label": "Πηγή πληρωμών", "placeholder": "" }
+          }
+        }
+      }
+    },
+	 "contact": {
+		"name": {
+			"label": "Ονοματεπώνυμο",
+			"placeholder": "Εισάγετε το όνομα και το επώνυμό σας"
+		},
+		"email": {
+			"label": "e-mail",
+			"placeholder": "Εισάγετε τη Δ/νση ηλ/κού ταχυδρομείου σας"
+		},
+		"message": {
+			"label": "Μήνυμα",
+			"placeholder": "Εισάγετε το μήνυμά σας (έως 500 χαρακτήρες)"
+		}
+   },
+   "params": {
+      "APP_NAME": {
+        "label": "Όνομα εφαρμογής",
+        "placeholder": ""
+      },
+      "APP_DESCRIPTION": {
+        "label": "Περιγραφή εφαρμογής",
+        "placeholder": ""
+      },
+      "APP_EMAIL": {
+        "label": "Δ/νση email",
+        "placeholder": ""
+      },
+      "ADMIN_EMAIL": {
+        "label": "Email διαχειριστή",
+        "placeholder": ""
+      },
+      "ADMIN_SUMMARIES": {
+        "label": "Λήψη email περιλήψεων (από διαχειριστή)"
+      },
+      "SITE_URL": {
+        "label": "Ηλ/κή δ/νση κύριας σελίδας",
+        "placeholder": ""
+      },
+      "PRIMARY_LANG": {
+        "label": "Κύρια γλώσσα",
+        "placeholder": ""
+      },
+      "BT": {
+        "label": "Πληρωμές Braintree"
+      },
+      "BT_MERCHANT_ID": { "label": "Ταυτότητα εμπόρου"},
+      "BT_PUBLIC_KEY": { "label": "Δημόσιο κλειδί", "placeholder": "" },
+      "BT_PRIVATE_KEY": { "label": "Ιδιωτικό κλειδί", "placeholder": "" },
+      "VP": { "label": "Πληρωμές Viva" },
+      "VP_PUBLIC_KEY": { "label": "Δημόσιο κλειδί", "placeholder": "" },
+      "VP_MERCHANT_ID": { "label": "Ταυτότητα εμπόρου", "placeholder": "" },
+      "VP_API_KEY": { "label": "Κλειδί API", "placeholder": "" },
+      "VP_SOURCE": { "label": "Πηγή πληρωμών", "placeholder": "" },
+      "STRIPE_API_KEY": { "label": "Κλειδί API", "placeholder": "" },
+      "STRIPE_PUBLIC_KEY": { "label": "Δημόσιο κλειδί", "placeholder": "" },
+      "PAYPAL_CLIENT_ID": { "label": "Κλειδί API", "placeholder": "" },
+      "PAYPAL_SECRET": { "label": "Ιδιωτικό κλειδί (secret)", "placeholder": "" },
+      "profileCategory1Enabled": { "label": "Ενεργοποίηση ενότητας προφίλ 1", "placeholder": "" },
+      "profileCategory1": { "label": "Όνομα ενότητας προφίλ 1", "placeholder": "" },
+      "profileCategory2Enabled": { "label": "Ενεργοποίηση ενότητας προφίλ 2", "placeholder": "" },
+      "profileCategory2": { "label": "Όνομα ενότητας προφίλ 2", "placeholder": "" },
+      "providersPerPage": {
+        "label": "Ειδικοί ανά σελίδα",
+        "placeholder": ""
+      },
+      "daysCanCancel": {
+        "label": "Όριο ημερών για ακύρωση",
+        "placeholder": ""
+      },
+      "enterInterval": {
+        "label": "Χρονικό περιθώριο εισόδου συνομιλίας (λεπτά)",
+        "placeholder": "Λεπτά πριν & μετά την έναρξη συνομιλίας κατά τα οπόια μπορεί να εισέλθει ο συμμετέχων"
+      },
+      "bookingAllowedHours": {
+        "label": "Ελάχιστο όριο κράτησης (ώρες)",
+        "placeholder": "Το ελάχιστο διάστημα (σε ώρες) πριν την κράτηση"
+      },
+      "currency": {
+        "label": "Νόμισμα",
+        "placeholder": ""
+      },
+      "bookingCharge": {
+        "label": "Προμήθεια ραντεβού (σε cents)",
+        "placeholder": ""
+      },
+      "enabledPayments": {
+        "label": "Ενεργοποιημένες μέθοδοι πληρωμής",
+        "placeholder": ""
+      },
+      "CLICKATELL_FROM": {
+        "label": "Όνομα αποστολέα SMS",
+        "placeholder": ""
+      }
+   },
+   "specialities": {
+    "name": {
+			"label": "Ειδικότητα",
+			"placeholder": "Εισάγετε την ειδικότητα"
+		},
+		"abbreviation": {
+			"label": "Συντομογραφία",
+			"placeholder": "Εισάγετε τη συντομογραφία της ειδικότητας"
+		}
+   },
+   "expertise": {
+    "name": {
+			"label": "Όνομα",
+			"placeholder": "Εισάγετε όνομα εξειδίκευσης"
+    },
+    "shortName": {
+			"label": "Όνομα (σύντομο)",
+			"placeholder": "Εισάγετε σύντομο όνομα εξειδίκευσης"
+    },
+    "itemCode": {
+			"label": "Κωδικός",
+			"placeholder": "Εισάγετε κωδικό εξειδίκευσης"
+    },
+    "specialities": {
+			"label": "Ειδικότητες",
+			"placeholder": "Εισάγετε ειδικότητες εξειδίκευσης"
+		}
+   },
+   "ntemplates": {
+    "type": {
+			"label": "Τύπος"
+    },
+    "action": {
+			"label": "Λειτουργία"
+    },
+    "receiver": {
+			"label": "Παραλήπτης"
+    },
+    "topic": {
+			"label": "Θέμα"
+		},
+    "content": {
+			"label": "Περιεχόμενο"
+		}
+   }
+  }
+}

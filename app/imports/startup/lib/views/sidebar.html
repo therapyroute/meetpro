@@ -1,0 +1,132 @@
+<template name="tmplSidebar">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <center>
+                        <a href="{{profileUrl}}">
+                            <img src="{{ownProfileImage}}" alt="" class="img-circle">
+                            <h6>{{fullName}}</h6>
+                        </a>
+                    </center>
+                </div>
+            
+            {{#if isNotAdmin}}
+                {{#with links}}
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="{{dashboard}}" title="{{dashboard_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span>{{_"sb_dashboard"}}</a>
+                    </li>
+                    {{#if isInRole 'user'}}
+                    <li>
+                        <a href="/experts" class="navlink-bright"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x "></i></span>{{_"booknow"}}</a>
+                    </li>
+                    {{/if}}
+                    <li>
+                        <a href="{{appointments}}" title="{{appointments_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-list fa-stack-1x "></i></span>{{_"sb_appointments"}}</a>
+                    </li>
+                    <li>
+                        <a href="{{associates}}" title={{assocHover}}> <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>{{assocTxt}}
+                        </a>
+                    </li>
+                    {{#if allowFiles}}
+                    <li>
+                        <a href="{{files}}" title="{{files_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-files-o fa-stack-1x "></i></span>{{_"sb_files"}}</a>
+                    </li>
+                    {{/if}}
+                    {{#if isInRole 'provider'}}
+                    <li>
+                        <a href="{{statistics}}" title="{{stats_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-bar-chart fa-stack-1x "></i></span>{{_"sb_stats"}}</a>
+                    </li>
+                    <li>
+                        <a href="{{schedule}}" title="{{schedule_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x "></i></span>{{_"sb_schedule"}}</a>
+                    </li>
+                    {{/if}}
+                    {{#if hasMessages}}
+                    <li>
+                        <a href="{{messages}}" title="{{msg_hover}}">{{> notificationsDropdown icon='envelope' iconEmpty='envelope-o'}}{{_"sb_msg"}}</a>
+                    </li>
+                    {{/if}}
+                    <!--<li id="toggle-li">
+                        <a href="#" id="menu-toggle-2" title="{{pin_hover}}"><span  class="fa-stack fa-lg pull-left"><i class="fa fa-arrows-h fa-stack-1x "></i></span>{{_"sb_pin"}}</a>
+                    </li>-->
+                    {{#if activeChat}}
+                    <li>
+                        <a href="{{chatUrl}}" style="color: white; background-color: #d9534f;"><span  class="fa-stack fa-lg pull-left"><i class="fa fa-video-camera fa-stack-1x "></i></span>{{_"sb_chat"}}</a>
+                    </li>
+                    {{/if}}
+                    <li>
+                        <a href="{{profile}}" title="{{profile_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>{{_"sb_profile"}}</a>
+                    </li>
+                    <li>
+                    <a href="#" id="logoutButton"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sign-out fa-stack-1x "></i></span>{{_"m_logout"}}</a>
+                    </li>
+                </ul>
+                {{/with}}
+            {{else}}
+                {{#with adminLinks}}
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a href="{{admin_dashboard}}" title="{{dashboard_hover}}">
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span>
+                            {{_"sb_dashboard"}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{admin_bookings}}" title="{{appointments_hover}}">
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-list fa-stack-1x "></i></span>
+                            {{_"sb_appointments"}}
+                        </a>
+                    </li>
+                    {{#if isSuperAdmin}}
+                    <li>
+                        <a href="/admin/apps" title="Apps">
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-list fa-stack-1x "></i></span>
+                            {{_"appdata"}}
+                        </a>
+                    </li>
+                    {{/if}}
+                    <li>
+                        <a href="{{admin_users}}" title={{users_hover}}> 
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>
+                            {{_"sb_users"}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{admin_stats}}" title={{stats_hover}}> 
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-bar-chart fa-stack-1x "></i></span>
+                            {{_"sb_stats"}}
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="{{financial}}" title={{financial_hover}}> 
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-credit-card fa-stack-1x "></i></span>
+                            {{_"inv_financial"}}
+                        </a>
+                    </li> -->
+                    {{#unless isSuperAdmin}}
+                    <li>
+                        <a href="{{admin_params}}" title={{params_hover}}> 
+                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-cogs fa-stack-1x "></i></span>
+                            {{_"sb_params"}}
+                        </a>
+                    </li>
+                    {{/unless}}
+                    <li>
+                        <a href="{{profile}}" title="{{profile_hover}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>{{_"sb_profile"}}</a>
+                    </li>
+                    <li>
+                    <a href="#" id="logoutButton"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sign-out fa-stack-1x "></i></span>{{_"m_logout"}}</a>
+                    </li>
+                </ul>
+                {{/with}}
+            {{/if}}
+            {{#if isAdminExpert}}
+            <div class="form-group" style="padding: 0 20px">
+                <label for="currentRole">Choose a role:</label>
+                <select id='currentRole' name='currentRole' class="form-control ">
+                    <option value='expert'>Expert</option>
+                    <option value='admin'>Admin</option>
+                </select>
+            </div>
+            {{/if}}
+            </nav>
+</template>

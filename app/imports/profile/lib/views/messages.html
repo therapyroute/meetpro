@@ -1,0 +1,168 @@
+<template name="tmplMessages">
+  {{#if hasMessages}}
+      <ol class="breadcrumb" id="breadcrumb">
+        <li><a href="/">{{_"m_home"}}</a></li>
+        <li class="active">{{_"sb_msg"}}</li>
+      </ol>
+      <h3>
+        {{_"msg_title"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_msg_hover"}}'></i>
+      </h3>
+      {{#if Template.subscriptionsReady}}
+        <div class="row">
+            <div class="col-md-4">
+                {{> notificationsList}}
+            </div>
+            <div class="col-md-8">
+                {{> notificationsDetail}}
+            </div>
+        </div>
+      {{else}}
+        <div class="loading">{{> spinner}}</div>
+      {{/if}}
+  {{else}}
+    {{> tmplNotPermitted}}
+  {{/if}}
+</template>
+
+
+<template name="notificationsList">
+  <div class="entry-content">
+    <ul class="nav nav-tabs tabs-nav" role="tablist">
+        <li role="presentation" class="active"><a href="#inbox" aria-controls="inbox" role="tab" data-toggle="tab">{{_"msg_inbox"}}</a></li>
+        <li role="presentation"><a href="#sent" aria-controls="sent" role="tab" data-toggle="tab">{{_"msg_sent"}}</a></li>
+    </ul>
+  </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{_"msg_list"}}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="inbox">
+                    <ul class="list-group">
+                        {{#each getNotifications}}
+                            <a href="#">
+                              <li class="list-group-item notification {{notificationClass}} clearfix">
+                                <i class="fa fa-{{icon}} text-{{class}}"></i>
+                                {{title}}
+                                <span title="{{dateFormatLong date}}" class="pull-right sentago" style="border-bottom: 1px dashed gray">{{ago}}</span>
+                              </li>
+                            </a>
+                        {{else}}
+                            {{_"msg_none"}}
+                        {{/each}}
+                    </ul>
+                    <center>
+                      {{> Paginator_UI getNotifications}}
+                    </center>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="sent">
+                    <ul class="list-group">
+                        {{#each getSentNotifications}}
+                          <a href="#">
+                            <li class="list-group-item sent-notification {{notificationClass}} clearfix">
+                                <i class="fa fa-{{icon}} text-{{class}}"></i>
+                                {{title}}
+                                <span title="{{dateFormatLong date}}" class="pull-right sentago" style="border-bottom: 1px dashed gray">{{ago}}</span>
+                            </li>
+                          </a>
+                        {{else}}
+                            {{_"msg_sent_none"}}
+                        {{/each}}
+                    </ul>
+                    <center>
+                      {{> Paginator_UI getSentNotifications}}
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-primary compose" name="compose">{{_"msg_compose"}}</button>
+        </div>
+    </div>
+</template>
+
+<template name="notificationsDetail">
+    {{#with selectedMessageContent}}
+        <h4>{{_"msg_message"}}</h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+              <div class="row">
+                <div class="col-xs-9">
+                    <h4 class="panel-title"><i class="fa fa-{{icon}} text-{{class}}"></i> {{title}}</h4> {{#if Template.subscriptionsReady}}
+                    <h5 class="panel-title">{{_"msg_assoc"}}: {{{associate}}}</h5>
+                    <h5 class="panel-title">{{_"msg_sentat"}}: {{dateFormatShort date}}</h5> {{/if}}
+                </div>
+                <div class="col-xs-3 ">
+                    <a href="{{assocUrl}}"><img src="{{imageUrl}}" alt="" class="img-circle pull-right" width=50></a>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+                {{{message}}}
+            </div>
+            <div class="panel-footer">
+                {{#if isReceived}}
+                  <button type="button" class="btn btn-primary reply" name="reply">{{_"msg_reply"}}</button>
+                {{/if}}
+                  <button type="button" class="btn btn-danger delete" name="delete">{{_"msg_delete"}}</button>
+            </div>
+        </div>
+    {{else}}
+        <h4>{{_"msg_none_selected"}}</h4>
+        <p>{{_"msg_select"}}</p>
+    {{/with}}
+</template>
+
+<template name="tmplComposeDialog">
+    <div class="modal fade right" id="" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="container-fluid">
+                <div class="modal-header">
+                    <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="">{{_"msg_new"}}</h4>
+                </div>
+                <div class="modal-body">
+                  {{# if receiver}}
+                      <h5 class="modal-title" id="">{{_"msg_to"}} {{receiver}}</h5>
+                      <input type="hidden" class="receiverId" value={{receiverId}}>
+                      {{else}}
+                      {{#if Template.subscriptionsReady}}
+                          <strong>{{_"msg_to"}}:</strong>&nbsp;
+                          <select class="input receiverId" id="recipientSelect2" name="recipientSelect2" style="width: 100%">
+                              {{#each getUsers}}
+                                  <option value="{{_id}}">{{profile.user.name}} {{profile.user.surname}}</option>
+                              {{/each}}
+                          </select>
+                      {{else}}
+                          <div class="loading">{{> spinner}}</div>
+                      {{/if}}
+                  {{/if}}
+                  <br>
+                  <form class="contact-form">
+                            <input type="text" name="messageSubject" class="messageSubject" placeholder='{{_"msg_subject"}}' value="">
+                            <div>
+                              <small>{{_"msg_rem"}}:
+                              <span id="subjCounter"></span>
+                              </small>
+                            </div>
+                            <br>
+                            <textarea class="messageText" id="messageText" name="messageText" rows="4" cols="40" placeholder='{{_"msg_message"}}'></textarea>
+                            <div>
+                              <small>{{_"msg_rem"}}:
+                              <span id="Counter"></span>
+                              </small>
+                            </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                    <button type="button" class="btn btn-success sendMessage">{{_"msg_send"}}</button>
+                </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</template>

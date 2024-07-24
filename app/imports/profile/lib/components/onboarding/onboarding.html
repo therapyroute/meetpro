@@ -1,0 +1,62 @@
+<template name="steps_template2">
+  <div class="steps">
+    <ol id='progressbar'>
+    {{#each wizard.steps}}
+      <li class="{{activeStepClass id}}" id={{id}}>
+        {{#if pathForStep id}}
+          <a href="{{pathForStep id}}">{{title}}</a>
+        {{else}}
+          {{title}}
+        {{/if}}
+        </li>
+    {{/each}}
+    </ol>
+  </div>
+</template>
+
+<template name="tmplOnboardingExpert">
+  {{> wizard id="onboarding-wizard2" steps=steps stepsTemplate="steps_template2" buttonClasses="btn btn-info"}}
+</template>
+
+
+<template name="onboardingExpertE">
+  <h3>Welcome to {{getSetting "APP_NAME"}}</h3>
+  <h4>Set your professional data to start accepting bookings</h4>
+  <p>or <b><a href='#' id='logout'>logout</a></b> to start again later...</p>
+  
+  {{#autoForm id="expertinformation1" doc=step.data schema=step.schema}}
+      {{> afQuickField name='price' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{>tmplSchedule}}
+      <br>
+    {{> wizardButtons}}
+    <!-- <button type="button" class="wizard-back-button btn btn-info">Back</button>
+    <button type="submit" class="wizard-next-button btn btn-info">Next</button> -->
+  {{/autoForm}}
+</template>
+
+<template name="onboardingCompleteE">
+  <h3>Congratulations!</h3>
+  
+  <div class="row">
+    <div class="col-md-8">
+      <p>You can now start accepting bookings at:</p>
+      <form class="form-inline">
+        <div class="form-group" style="width:70%">
+          <label for="bookingLink">Booking Link:</label>
+          <input type="text" id='bookingLink' name='bookingLink' class="form-control" disabled value={{linkDescription}} style="width:78%">
+          <button type="submit" id='copyUrl' class="btn btn-primary">Copy URL</button>    
+        </div>
+      </form>
+    </div>  
+  </div>
+  
+  <p>Share the above link or <a href='https://meetpro.live/faqs/' target='_blank'>embed it</a> at your website.</p>
+  <br>
+  <p>Next steps:</p>
+  <p><ul>
+    <li>Fill in your professional & personal details at the <a href='/profile'>profile section</a></li>
+    <li>Learn how to <a href='https://meetpro.live/faqs/' target='_blank'>embed {{getSetting "APP_NAME"}} to your website</a></li>
+  </ul></p>
+  <br>
+  <a href='/dashboard' class='btn btn-success'>Close Wizard</a>
+</template>

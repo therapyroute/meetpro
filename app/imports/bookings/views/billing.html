@@ -1,0 +1,198 @@
+<template name="tmplInvoices">
+    <h3>{{_"inv_title"}}</h3>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+            {{#if Template.subscriptionsReady}}
+              {{#if hasInvoices}}
+                {{> reactiveTable 
+                  collection=invoiceData
+                  fields=displayedFields
+                  class="table table-striped table-bordered"
+                }}
+              {{else}}
+                <h3>{{_"inv_none"}}</h3>
+                <br><br>
+              {{/if}}
+
+            {{else}}
+              <div class="loading">{{> spinner}}</div>
+            {{/if}}
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+</template>
+
+<template name="tmplInvoicePayment">
+  <script src="{{vpBaseurl}}/web/checkout/js"></script>
+  <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {{#with formData}}
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"vi_title"}}</h4>
+          <h6>{{subTitle}}</h6>
+        </div>
+        <div class="modal-body">  
+          <div class="container-fluid">
+            <div class="row">
+              {{#if notPaid}}
+                <form id="myform" action="/checkout" method="post">
+                  <button type="button"
+                    data-vp-publickey="{{pkey}}"
+                    data-vp-baseurl={{vpBaseurl}}
+                    data-vp-lang={{lang}}
+                    data-vp-amount={{amount}}
+                    data-vp-merchantref={{refno}}
+                    data-vp-description={{subTitle1}}
+                    data-vp-sourcecode={{sourceCode}}
+                    data-vp-expandcard="true"
+                    data-vp-customersurname={{surname}}
+                    data-vp-customerfirstname={{name}}
+                    data-vp-customeremail={{email}}
+                    data-vp-border-radius="4px"
+                    data-vp-background-color="green">
+                  </button>
+                  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-danger closeDialog">{{_"cancel"}}</button>
+                </form>
+                
+              {{else}}
+                {{#if vivaReady}}
+                  <h3>{{vivaResult}}</h3>
+                  <button type="button" class="btn btn-danger closeDialog">{{_"ap_close"}}</button>
+                {{else}}
+                  <div class="loading">{{> spinner}}</div>
+                {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+        {{/with}}
+      </div>
+    </div>
+  </div>
+  
+</template>
+
+<template name="tmplInvoicesAdmin">
+  <div class="container-fluid">
+    <ol class="breadcrumb" id="breadcrumb">
+      <li><a href="/">{{_"m_home"}}</a></li>
+      <li class="active">{{_"inv_financial"}}</li>
+    </ol>
+    <h3>
+      {{_"inv_financial"}} <!--&nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_stats_hover"}}'></i>-->
+    </h3>
+    
+    <div class="row">
+      {{>tmplInvoiceStatistics}}  
+    </div>
+    
+    
+    <div class="row">
+      <h2>{{_"inv_title_pr"}}</h2>
+      <div class="form-group">
+        <label for="userId" class="col-sm-2 control-label">{{_"ap_provider"}}</label>
+        <div class="col-sm-3">
+          {{#if Template.subscriptionsReady}}
+          <select id='userId' name='userId' class="user-filter" style="width: 100%">
+            <option></option>
+            {{#each pr in allProviders}}
+              <option value={{pr.value}}>{{pr.label}}</option>
+            {{/each}}
+          </select>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      {{> tmplInvoices}}
+    </div>
+    <div class="row">
+      <button type="button" class="btn btn-success generator">{{_"inv_generate"}}</button>
+    </div>
+  </div>
+</template>
+
+<template name="tmplInvoiceStatistics">
+  <h4>{{_"inv_apptspm"}}</h4>
+  {{#if tableData}}  
+    <table class="table table-condensed table-striped table-hover" style="margin-bottom: 10px;">
+      <thead class="info">
+        <tr>
+          <th>{{_"inv_year"}}</th><th>{{_"inv_month"}}</th>
+          <th>{{_"inv_paidp"}}</th><th>{{_"inv_notpaidp"}}</th>
+          <th>{{_"inv_income"}}</th><th>{{_"inv_pending"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each row in tableData}}
+          <tr>
+            <td>{{row.year}}</td>
+            <td>{{row.month}}</td>
+            <td>{{{row.paid}}}</td>
+            <td>{{{row.unpaid}}}</td>
+            <td>{{row.income}}</td>
+            <td>{{row.pending}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="form-group" style="margin-top: 5px;">
+    <label class="col-sm-6 control-label" style="margin-top: 7px;">{{_"st_sel_year"}}</label>
+      <div class="col-sm-6">
+        <select data-filter class="form-control" name="year" style="width: 50%;">
+          {{#each apptYears}}
+            <option value="{{this.value}}" {{this.selected}}>{{this.value}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    <br><br>
+  {{else}}
+  <h6>{{_"inv_none"}}</h6>
+  {{/if}}
+</template>
+
+<template name="tmplInvoiceList">
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 class="modal-title" id="">{{_"inv_title"}}</h3>
+          <h5>{{subtitle}}</h5>
+        </div>
+        <div class="modal-body">  
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  {{#if Template.subscriptionsReady}}
+                    {{#if hasInvoices}}
+                      {{> reactiveTable 
+                        collection=invoiceData
+                        fields=displayedFields
+                        class="table table-striped table-bordered"
+                      }}
+                    {{else}}
+                      <h3>{{_"inv_none"}}</h3>
+                      <br><br>
+                    {{/if}}
+
+                  {{else}}
+                    <div class="loading">{{> spinner}}</div>
+                  {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</template>

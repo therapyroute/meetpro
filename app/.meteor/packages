@@ -1,0 +1,101 @@
+# Meteor packages used by this project one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# meteor add and meteor remove will edit this file for you
+# but you can also edit it by hand.
+
+meteor-base             # Packages every Meteor app needs to have
+mobile-experience       # Packages for a great mobile UX
+mongo                   # The database Meteor supports right now
+blaze-html-templates    # Compile .html files into Meteor Blaze views
+session                 # Client-side reactive dictionary for your app
+#jquery                  # Helpful client-side library
+tracker                 # Meteors client-side reactive programming library
+
+es5-shim                # ECMAScript 5 compatibility for older browsers.
+ecmascript             # Enable ECMAScript2015+ syntax in app code
+
+templating
+reactive-var
+less
+check
+base64
+http
+ejson
+email
+
+# 3rd party packages
+ostrio:flow-router-extra
+mealsunite:flow-routing-extra
+kadira:blaze-layout
+
+accounts-password
+#accounts-facebook
+accounts-google
+accounts-oauth
+mindsharelabs:accounts-wordpress
+#pauli:accounts-linkedin
+service-configuration
+useraccounts:bootstrap
+bozhao:link-accounts
+percolate:google-api
+
+tap:i18n
+anti:i18n
+
+aldeed:collection2
+aldeed:autoform
+aldeed:autoform-select2
+gwendall:simple-schema-i18n
+gwendall:autoform-i18n
+dburles:collection-helpers
+reywood:publish-composite
+tmeasday:publish-counts
+alanning:roles
+#splendido:accounts-meld
+forwarder:autoform-wizard
+aslagle:reactive-table
+clinical:csv
+pfafman:filesaver
+hitchcott:paginator
+
+momentjs:moment
+
+edgee:slingshot
+
+juliancwirko:s-alert
+juliancwirko:s-alert-scale
+#fourseven:scss
+sacha:spin
+barbatus:stars-rating
+peppelg:bootstrap-3-modal
+fortawesome:fontawesome
+codechimp:autoform-masked-input
+gwendall:body-events
+kadira:dochead
+
+meteorhacks:inject-initial
+sakulstra:aggregate@1.4.4
+
+matb33:collection-hooks@1.0.1
+
+digilord:faker
+
+simple:json-routes
+simple:rest-bearer-token-parser
+simple:rest-json-error-handler
+percolate:synced-cron
+
+qubitdev:autoform-bs-datetimepicker-updated
+mpowaga:autoform-summernote
+tsega:bootstrap3-datetimepicker
+standard-minifier-css
+standard-minifier-js
+shell-server
+facebook-config-ui
+google-config-ui
+dynamic-import
+underscore
+spacebars-compiler
+hot-module-replacement
+blaze-hot

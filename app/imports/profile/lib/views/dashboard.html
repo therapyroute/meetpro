@@ -1,0 +1,146 @@
+<template name="tmplDashboard">
+    {{#if Template.subscriptionsReady}}
+        {{#unless isUserVerified}}
+          {{> tmplNotVerified}}
+        {{/unless}}
+        <h3>{{_"dashboard"}}</h3>
+        <div class="row">
+          {{#if isChatActive}}
+            <br>
+            <div class="col-md-12">
+              <a class="btn btn-danger" href="{{chatUrl}}"><span  class="fa-lg pull-left"><i class="fa fa-video-camera"></i></span>&nbsp;&nbsp;{{_"chatBtn"}}</a>
+            </div>
+            <br><br>
+          {{/if}}
+        </div>
+        <div class="row">
+          <div class="col-md-12 stats-row">
+            {{> tmplStatisticsTotalsDashboard}}
+          </div>
+        </div>
+        {{#if isInRole 'provider'}}
+          {{> tmplExpertLink}}
+        {{/if}}
+        <div class="row match-my-cols">
+          <div class="col-md-8 col-sm-8 wide-right">
+            {{> tmplUpcomingAppointments}}
+          </div>
+          <div class="col-md-4 col-sm-4 wide-left">
+            {{> tmplDashboardProfile}}
+          </div>
+        </div>
+        {{#if hasMessages}}
+        <div class="row match-my-cols">
+          <div class="col-md-8 col-sm-8 wide-right">
+            {{> notificationsPanel}}
+          </div>
+
+          <div class="col-md-4 col-sm-4 wide-left">
+            <div class="panel panel-info x_panel x_blue">
+              <div class="panel-heading x_title">
+                <span class="fa-lg"><h5><i class="fa fa-link"></i>&nbsp;&nbsp;{{_"qlinks"}}</h5></span>
+              </div>
+              <div class="panel-body x_content">
+                <div class="">
+                  <ul>
+                    {{#with links}}
+                      <li><a href="{{agenda}}" title={{_"appointments_hover"}}>{{_"ql2"}}</a></li>
+                      {{#if isProvider}}
+                        <li><a href="{{users}}" title={{_"sb_users_hover"}}>{{_"ql5"}}</a></li>
+                      {{else}}
+                        <li><a href="{{providers}}" title={{_"ql1_hover"}}>{{_"ql1"}}</a></li>
+                        <li><a href="{{files}}" title={{_"sb_files_hover"}}>{{_"ql3"}}</a></li>
+                      {{/if}}
+                      <li><a href="{{check}}" title={{_"ql4_hover"}}>{{_"ql4"}}</a></li>
+                    {{/with}}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        {{#if isDevelopment}}
+          <a href="/chat/vb-testing-2365" class="btn btn-default btn-info btn-sm">Test Chat</a>
+        {{/if}}
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>
+
+<template name="tmplUpcomingAppointments">
+  {{#if Template.subscriptionsReady}}
+      <div class="panel panel-success x_panel x_blue">
+        <div class="panel-heading x_title">
+          <h5><i class="fa fa-calendar"></i>&nbsp;&nbsp;{{_"upcoming_ap"}}</h5>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body x_content">
+          {{#if hasAppts}}
+              {{#each upcoming}}
+                    <article class="media event">
+                      <a href="#" class="pull-left date list-item-appointment">
+                        <p class="month">{{startMonth}}</p>
+                        <p class="day">{{startDay}}</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title list-item-appointment" href="#">{{assocName}}</a>
+                        {{#if specs}}
+                          <p><small>{{specs}}</small></p>
+                        {{/if}}
+                        <p>{{startTime}}</p>
+                      </div>
+                    </article>
+              {{/each }}
+          {{else}}
+              <h5>{{_"upcoming_no"}}</h5>
+              {{#unless isProvider}}
+                <a class="btn btn-lg btn-success" href="/experts">{{_"booknow"}}</a>
+              {{/unless}}
+          {{/if}}
+        </div>
+      </div>
+  {{else}}
+    <div class="loading">{{> spinner}}</div>
+  {{/if}}
+</template>
+
+<template name="tmplDashboardProfile">
+    <div class="panel panel-info x_panel x_blue">
+      <div class="panel-body x_content">
+
+        <div class="flex">
+          <ul class="list-inline widget_profile_box">
+          {{#if Template.subscriptionsReady}}
+            <li>
+              <img src="{{userImageUrl}}" alt="..." class="img-circle profile_img" />
+            </li>
+          {{else}}
+            <div class="loading">{{> spinner}}</div>
+          {{/if}}
+          </ul>
+        </div>
+        <center>
+          <h3 class="name">{{fullName}}</h3>
+          <p>
+            {{_"pr_guide"}}
+          </p>
+      </center>
+      </div>
+    </div>
+</template>
+
+<template name="tmplExpertLink">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <div class="form-group" style="width:70%">
+          <label for="bookingLink">My booking link:</label>
+          <input type="text" id='bookingLink' name='bookingLink' class="form-control" disabled value={{linkDescription}} style="width:78%">
+        </div>
+        <button type="submit" id='copyUrl' class="btn btn-primary">Copy URL</button>    
+      </form>
+      <p>Share the above link or <a href='https://meetpro.live/faqs/' target='_blank'>embed it</a> at your website.</p>
+    </div>
+  </div>
+</template>

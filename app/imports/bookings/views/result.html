@@ -1,0 +1,66 @@
+<template name="tmplPaymentResult">
+  <div class="container-fluid">
+    <div class="row">
+      {{#if isVivaStripePaypal}}
+        {{#if paymentReady}}
+            {{#if success}}
+              <h2>{{_"msg_success"}}</h2>
+              <blockquote>
+                <p class="lead">
+                  <h3>{{_"viva_success"}}</h3>
+                  <br>
+                  <strong>{{_"thankyou"}}</strong>
+                </p>
+              </blockquote>
+            {{else}}
+              <h2>{{_"viva_error"}}</h2>
+              <blockquote>
+                <p class="lead">
+                  {{{_"viva_error_msg"}}}
+                  <br>
+                  <i>({{errorMsg}})</i>
+                </p>
+              </blockquote>
+            {{/if}}
+        {{else}}
+          <h2><i class="fa fa-spinner fa-spin fa-fw"></i>&nbsp;&nbsp;{{_"pleasewait"}}</h2>
+        {{/if}}
+      {{else}}
+          <h2>{{_"msg_success"}}</h2>
+          <h3>{{_"bt_success"}}</h3>
+          <br>
+          <h4>{{_"thankyou"}}</h4>
+          <br>
+      {{/if}}
+      {{#if isf2f}}
+      {{else}}
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form-inline">
+              <div class="form-group" style="width:70%">
+                <label for="bookingLink">{{_"booking_link_title"}}</label>
+                <input type="text" id='bookingLink' name='bookingLink' class="form-control" disabled value={{bookingLink}} style="width:78%">
+                <button type="submit" id='copyUrl' class="btn btn-primary">Copy URL</button>    
+              </div>                
+            </form>
+          </div>
+        </div>
+      {{/if}}
+      <br>
+      {{{gCalBtn}}}
+      <br>
+      {{> nextSteps}}
+    </div>
+  </div>
+</template>
+
+<template name="nextSteps">
+  <blockquote>
+    <p class="lead">
+      {{_"ap_sched"}}
+      <br>
+      <!-- <br>
+      {{{_"ap_sched1"}}} -->
+    </p>
+  </blockquote>
+</template>

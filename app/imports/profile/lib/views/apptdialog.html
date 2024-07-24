@@ -1,0 +1,235 @@
+<template name="apptDialog">
+      {{#if Template.subscriptionsReady}}
+        <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="container-fluid">
+                    <div class="modal-header">
+                        <button type="button" class="close closeDialog" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="">{{_"ap_title"}}</h4>
+                    </div>
+                <div class="modal-body appointment-modal-body">
+                  {{#with curAppt}}
+                    <div class="appoint-page clearfix">
+                      <div class="appoint-section clearfix">
+                          <form id="appointment_form_main" action="" method="post">
+                            <div class="row appt-row">
+                              <div class="col-md-4 col-sm-4">
+                                <center>
+                                  {{#if isInRole 'admin'}}
+                                    <br>
+                                    <a class='associateLink' href="{{userLink}}">
+                                      <img src={{userImageUrl}} class="img-circle img-responsive" />
+                                    </a>
+                                  {{/if}}
+                                  <a class='associateLink' href="{{associateLink}}">
+                                    <img src={{imageUrl}} class="img-circle img-responsive" />
+                                  </a>
+                                </center>
+                              </div>
+                              <div class="col-md-8 col-sm-8">
+                              <div class="row">
+                                <div class="col-xs-3 col-sm-4">
+                                  <p class="appt-header">{{_"ap_start"}}:</p>
+                                </div>
+                                <div class="col-xs-9 col-sm-8">
+                                  <p>{{dateFormatLong start}}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xs-3 col-sm-4">
+                                  <p class="appt-header">{{_"ap_end"}}:</p>
+                                </div>
+                                <div class="col-xs-9 col-sm-8">
+                                  <p>{{dateFormatLong end}}</p>
+                                </div>
+                              </div>
+                              {{#if isInRole 'admin'}}
+                                <div class="row">
+                                  <div class="col-xs-4 col-sm-4">
+                                    <p class="appt-header">{{_"ap_user"}}:</p>
+                                  </div>
+                                  <div class="col-xs-8 col-sm-8">
+                                    <p><a class='associateLink' href="{{userLink}}">{{userfullName}}</a></p>
+                                  </div>
+                                </div>
+                              {{/if}}
+                              {{#if isInRole 'user,admin'}}
+                                <div class="row">
+                                  <div class="col-xs-3 col-sm-4">
+                                    <p class="appt-header">{{_"ap_provider"}}:</p>
+                                  </div>
+                                  <div class="col-xs-9 col-sm-8">
+                                    <p><a class='associateLink' href="{{associateLink}}">{{providerfullName}}</a></p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-xs-5 col-sm-4">
+                                    <p class="appt-header">{{_"ap_specialities"}}:</p>
+                                  </div>
+                                  <div class="col-xs-7 col-sm-8">
+                                    <p class="break-word">{{providerSpecs}}</p>
+                                  </div>
+                                </div>
+                              {{else}}
+                                <div class="row">
+                                  <div class="col-xs-4 col-sm-4">
+                                    <p class="appt-header">{{_"ap_user"}}:</p>
+                                  </div>
+                                  <div class="col-xs-8 col-sm-8">
+                                    <p><a class='associateLink' href="{{associateLink}}">{{userfullName}}</a></p>
+                                  </div>
+                                </div>
+                              {{/if}}
+                              {{#if canHaveF2F}}
+                                <div class="row">
+                                  <div class="col-xs-5 col-sm-4">
+                                    <p class="appt-header">{{_"ap_appttype"}}:</p>
+                                  </div>
+                                  <div class="col-xs-7 col-sm-8">
+                                    <p>{{i18nAppttype apptType}}</p>
+                                    {{#if address}}
+                                      <p><b>{{_"address"}}</b>: {{address}}</p>
+                                    {{/if}}
+                                    <p></p>
+                                  </div>
+                                </div>
+                              {{/if}}
+                              <div class="row">
+                                <div class="col-xs-5 col-sm-4">
+                                  <p class="appt-header">{{_"ap_status"}}:</p>
+                                </div>
+                                <div class="col-xs-7 col-sm-8">
+                                  <p>{{i18nStatus status}}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xs-3 col-sm-4">
+                                  <p class="appt-header">{{_"ap_price"}}&nbsp;({{currency}}):</p>
+                                </div>
+                                <div class="col-xs-9 col-sm-8">
+                                  <p>{{price}}</p>
+                                </div>
+                              </div>
+                              {{#if isConfirmed}}
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"payment_type"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <p>{{i18nStatus payment}}</p>
+                                  </div>
+                                </div>
+                              {{/if}}
+
+                              <div class="row">
+                                <div class="col-sm-4">
+                                  <p class="appt-header">{{_"createdat"}}:</p>
+                                </div>
+                                <div class="col-sm-8">
+                                  <p>{{dateFormatShort createdAt}}</p>
+                                </div>
+                              </div>
+                              {{#if isCancelled}}
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"cancelledat"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <p>{{dateFormatShort updatedAt}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"cancelledby"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <p>{{cancelledBy}}</p>
+                                  </div>
+                                </div>
+                              {{/if}}
+                              {{#if isUserCompleted}}
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"ap_rate"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    {{> starsRating id="userRating" rating=rating.rating mutable=true}}
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"ap_commentD"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <span><textarea id="userComment" rows="8" cols="40">{{rating.comment}}</textarea></span>
+                                    <div>
+                                      <small>{{_"msg_rem"}}:
+                                      <span id="Counter"></span>
+                                      </small>
+                                    </div>
+                                  </div>
+                                </div>
+                              {{/if}}
+
+                              {{#if isProviderCompleted}}
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"ap_rating"}}:</p>
+                                  </div>
+                                  {{#if rating.rating}}
+                                    <div class="col-sm-8">
+                                      {{> starsRating id="userRating" rating=rating.rating}}
+                                    </div>
+                                  {{else}}
+                                                  <div class="col-sm-8">
+                                                    <p>{{_"ap_norating"}}</p>
+                                                  </div>
+                                  {{/if}}
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="appt-header">{{_"ap_ucomment"}}:</p>
+                                  </div>
+                                  <div class="col-sm-8">
+                                                {{#if rating.comment}}
+                                                    <p>{{rating.comment}}</p>
+                                                  {{else}}
+                                                    <p>{{_"ap_nocomment"}}</p>
+                                                  {{/if}}
+                                  </div>
+                                </div>
+                              {{/if}}
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-6">
+                        {{#if canCancel}}
+                          <button type="button" class="btn btn-danger cancelApptBtn" data-dismiss="modal">{{_"ap_cancel"}}</button>
+                        {{/if}}
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-6">
+                        {{#if isConfirmed}}
+                          <a href={{gCalLink}} target="_blank" title={{_"appt_gcal_hover"}} class="pull-right btn btn-info">
+                              +&nbsp;<span class="fa"><i class="fa fa-calendar"></i></span> Google Calendar
+                          </a>
+                        {{/if}}
+                      </div>
+                    </div>
+                  {{/with}}
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info questionBtn" data-dismiss="modal">{{_"ap_questions"}}</button>
+                        <button type="button" class="btn btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+      {{/if}}
+    </template>

@@ -1,0 +1,31 @@
+{
+  "public" : {
+    "APP_NAME": "MeetPro",
+    "APP_URL": "https://meetpro.live",
+    "APP_MODE": "production",
+    "JITSI_SERVER": "meet.jit.si",
+    "messagesEnabled": "false",
+    "filesEnabled": "false",
+    "face2face": "true",
+    "DEFAULT_LANG": "en",
+    "reCaptcha": {
+      "showRecaptcha": false,
+      "siteKey": ""
+    }
+  },
+  "private": {
+    "ADMIN_EMAIL": "admin@vb.gr",
+    "SRV_TZ": "Europe/London",
+    "CLICKATELL_AUTH_TOKEN": "",
+    "EMAIL_URL": "",
+    "FB_APPID": false,
+    "FB_SECRET": false,
+    "GOOGLE_CID": false,
+    "GOOGLE_SECRET": false,
+    "REST_BEARER_TOKEN": "12345"
+  },
+  "GoogleAccessId": "",
+  "reCaptcha": {
+    "secretKey": ""
+  }
+}

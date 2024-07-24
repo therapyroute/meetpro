@@ -1,0 +1,12 @@
+#provider-container .background-booking {
+  background-position: center;
+  background: url('/images/keyboard.jpg');
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+#provider-container h3 {
+  color: #3a3c41;
+}

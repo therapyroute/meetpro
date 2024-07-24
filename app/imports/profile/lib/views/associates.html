@@ -1,0 +1,79 @@
+<!-- Contains a list of the associated providers/users -->
+
+<template name="tmplAssociates">
+    <ol class="breadcrumb" id="breadcrumb">
+      <li><a href="/">{{_"m_home"}}</a></li>
+      <li class="active">{{assocTxt}}</li>
+    </ol>
+    <div class="row">
+        <h3 style="padding-left: 15px;">
+          {{assocTxt}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{assocHover}}'></i>
+        </h3>
+    </div>
+    {{#if Template.subscriptionsReady}}
+        {{#if hasAssocs}}
+            <div class="row">
+               <div class="col-md-10 col-sm-10 col-xs-8 search">
+                 <form id="searchForm">
+                     <input id="associateSearchInput" type="text" placeholder='{{_"as_search"}}' value="" />
+                 </form>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-4">
+                 <button type="button" class="btn btn-danger btn-lg" id="clearBtn" {{hasSearch}}>{{_"clearBtn"}}</button>
+               </div>
+            </div>
+            <br>
+            <div class="row">
+             {{#each assocs}}
+                 <div class="col-md-4 col-sm-6">
+                     {{> tmplAssociateCard}}
+                 </div>
+             {{else}}
+                <div class="col-md-12">
+                  {{#if isProvider}}
+                    <h5>{{_"as_nonept"}}</h5>
+                  {{else}}
+                    <h5>{{_"as_noneut"}}</h5>
+                  {{/if}}
+                </div>
+             {{/each}}
+            </div>
+            <br>
+            <div class="row">
+              <center>
+                {{> Paginator_UI assocs}}
+              </center>
+            </div>
+        {{else}}
+            <div class="row">
+              <div class="col-xs-12">
+               <h4>{{noneTitle}}</h4>
+               <blockquote>
+                  <p class="lead">{{{noneText}}}</p>
+               </blockquote>
+              </div>
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>
+
+<template name="tmplAssociateCard">
+  <div class="pr-card">
+    <img class="header-bg" width="250" height="70" src="images/card-bg.png" />
+    <div class="pr-avatar">
+      <a href={{associateLink}} title={{profile.user.surname}}>
+        <img src="{{userPhoto profile.user.photo}}" alt="{{fullname}}" />
+      </a>
+    </div>
+    <div class="content">
+      <a href={{associateLink}} title={{profile.user.surname}}>
+        <p>{{profile.user.name}} {{profile.user.surname}}</p>
+      </a>
+        <p>
+          {{specialities}}
+        </p>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,131 @@
+<template name="tmplBooking">
+      {{#if clickedBooking}}
+        {{> tmplBookingDialog}}
+      {{/if}}
+      {{#if payWithBraintree}}
+        {{> tmplBraintreePayment}}
+      {{/if}}
+      {{#if payWithViva}}
+        {{> tmplVivaPayment}}
+      {{/if}}
+      {{#if payWithStripe}}
+        {{> tmplStripePayment}}
+      {{/if}}
+      {{#if payWithPaypal}}
+        {{> tmplPaypalPayment}}
+      {{/if}}
+        <div id="provider-container" class="container-fluid">
+          <div class="row">
+            {{#with currentProvider}}
+              <!-- {{#if showBreadcrumb}}
+              <ol class="breadcrumb" id="breadcrumb">
+                <li><a href="/">{{_"m_home"}}</a></li>
+                <li><a href="/experts">{{_"booknow"}}</a></li>
+                <li><a href="{{ulink}}">{{uname}} {{usurname}}</a></li>
+                <li class="active">{{_"booknow_page"}}</li>
+              </ol>
+              {{/if}} -->
+              <div class="panel panel-default">
+                <div class="panel-body-small background">
+                  <center>
+                    <div class="row">
+                      {{#if providerImageUrl}}
+                        <div class="col-xs-6">
+                          <a href="{{ulink}}"><img src={{providerImageUrl}} class="img-circle img-small" /></a>
+                        </div>
+                        <div class="col-xs-6">
+                          <h3 class="mainh3"><a href="{{ulink}}">{{utitle}} {{uname}} {{usurname}}</a></h3>
+                          <h6 class="mainh3">{{specs}}</h6>
+                          <p><i class="fa fa-clock-o"></i>&nbsp; {{providerDurationShort}}'</p>
+                          <div id='tzToggle'>
+                            <p><a href='#' style='color: #333; text-decoration: none;'><i class="fa fa-globe"></i>&nbsp; {{timezone}}&nbsp;<i class="fa fa-chevron-down" aria-hidden="true"></i></a></p>
+                            <div id='tzSelect' style='display: none'>
+                              {{#unless currentUser}}
+                                <div class="row">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-2">
+                                    <label>{{_"pr_timezone"}}</label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <select id='timeZone' name='timeZone' style="width: 100%">
+                                      <option value=''>''</option>
+                                      {{#each tz in timeZones}}
+                                        <option value='{{tz.value}}' {{tz.selected}}>{{tz.label}}</option>
+                                      {{/each}}
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3"></div>
+                                </div>
+                                {{/unless}}
+                            </div>
+                          </div>
+                        </div>
+                      {{else}}
+                        <div class="col-xs-12">
+                          <h3 class="mainh3"><a href="{{ulink}}">{{utitle}} {{uname}} {{usurname}}</a></h3>
+                          <h6 class="mainh3">{{specs}}</h6>
+                          <p><i class="fa fa-clock-o"></i>&nbsp; {{providerDurationShort}}'</p>
+                          <div id='tzToggle'>
+                            <p><a href='#' style='color: #333; text-decoration: none;'><i class="fa fa-globe"></i>&nbsp; {{timezone}}&nbsp;<i class="fa fa-chevron-down" aria-hidden="true"></i></a></p>
+                            <div id='tzSelect' style='display: none'>
+                              {{#unless currentUser}}
+                                <div class="row">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-2">
+                                    <label>{{_"pr_timezone"}}</label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <select id='timeZone' name='timeZone' style="width: 100%">
+                                      <option value=''>''</option>
+                                      {{#each tz in timeZones}}
+                                        <option value='{{tz.value}}' {{tz.selected}}>{{tz.label}}</option>
+                                      {{/each}}
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3"></div>
+                                </div>
+                                {{/unless}}
+                            </div>
+                          </div>
+                        </div> <!-- of col-xs -->
+                      {{/if}}
+                    </div> <!-- of row -->
+                  </center>
+                </div>
+              </div>
+            {{/with}}
+          </div>
+        </div>
+        <br>
+        
+          <div class="container-fluid">
+            {{#if providerDuration}}
+              {{>fullcalendar id="calendar"
+                header=headerOpts
+                views=customView
+                height='auto'
+                defaultView='agendaWeek'
+                firstDay=1
+                allDaySlot=false
+                timezone='local'
+                minTime=workFrom
+                maxTime=workTo
+                slotEventOverlap=false
+                slotDuration=providerDuration
+                slotLabelInterval=providerInterval
+                events=fetchAll
+                selectConstraint='available'
+                eventClick=onEventClicked
+                dayClick = onDayClicked
+                defaultDate = startDate
+                viewRender = disablePrevBtn
+                locale = curLang
+                eventRender = emptyPastSlots
+                timezone = userTZ
+              }}
+            {{/if}}
+          </div>
+    
+
+  
+</template>

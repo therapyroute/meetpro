@@ -1,0 +1,195 @@
+{
+  "schemas": {
+    "users": {
+      "profile": {
+        "user":{
+          "name": {
+            "label": "First name"
+          },
+          "surname": {
+            "label": "Last name"
+          },
+          "gender": {
+            "label": "Gender"
+          },
+          "mobile": {
+            "label": "Mobile phone"
+          },
+          "allowed_notifications": {
+            "label": "Allowed Notifications"
+          },
+          "email_notifications": {
+            "label": "Send email when receiving personal message"
+          }
+        },
+        "provider": {
+          "short_bio": {
+            "personal": {
+              "label": "Personal info ",
+              "placeholder": "Enter your personal info to be displayed on your profile (up to 500 chars)"
+            }
+          },
+          "price": {
+            "label": "Price",
+            "placeholder": "Set your appointment price"
+          },
+          "displayRating": {
+            "label": "Display my average rating at my public profile"
+          },
+          "address": {
+            "label": "Address"
+          },
+          "allowf2f": {
+            "label": "Allow Face to face appointments?"
+          },
+          "viva": {
+            "VP": { "label": "Viva Wallet" },
+            "VP_PUBLIC_KEY": { "label": "Public key", "placeholder": "" },
+            "VP_MERCHANT_ID": { "label": "Merchant ID", "placeholder": "" },
+            "VP_API_KEY": { "label": "API Key", "placeholder": "" },
+            "VP_SOURCE": { "label": "Payment Source", "placeholder": "" }
+          }
+        }
+      }
+    },
+	 "contact": {
+		"name": {
+			"label": "Full Name",
+			"placeholder": "Enter your first name & last name"
+		},
+		"email": {
+			"label": "e-mail",
+         "placeholder": "Enter your e-mail address"
+		},
+		"message": {
+			"label": "Message",
+         "placeholder": "Enter your message (up to 1000 characters)"
+    }
+   },
+   "params": {
+      "APP_NAME": {
+        "label": "App Name",
+        "placeholder": ""
+      },
+      "APP_DESCRIPTION": {
+        "label": "App Description",
+        "placeholder": ""
+      },
+      "APP_EMAIL": {
+        "label": "Email address",
+        "placeholder": ""
+      },
+      "ADMIN_EMAIL": {
+        "label": "Admin email",
+        "placeholder": ""
+      },
+      "ADMIN_SUMMARIES": {
+        "label": "Receive summary emails"
+      },
+      "SITE_URL": {
+        "label": "Main page URL",
+        "placeholder": ""
+      },
+      "PRIMARY_LANG": {
+        "label": "Main language",
+        "placeholder": ""
+      },
+      "BT": {
+        "label": "Braintree Payments"
+      },
+      "BT_MERCHANT_ID": { "label": "Merchant ID"},
+      "BT_PUBLIC_KEY": { "label": "Public key", "placeholder": "" },
+      "BT_PRIVATE_KEY": { "label": "Private key", "placeholder": "" },
+      "VP": { "label": "Viva Wallet" },
+      "VP_PUBLIC_KEY": { "label": "Public Key", "placeholder": "" },
+      "VP_MERCHANT_ID": { "label": "Merchant ID", "placeholder": "" },
+      "VP_API_KEY": { "label": "API Key", "placeholder": "" },
+      "VP_SOURCE": { "label": "Payment Source", "placeholder": "" },
+      "STRIPE_API_KEY": { "label": "API Key", "placeholder": "" },
+      "STRIPE_PUBLIC_KEY": { "label": "Public key", "placeholder": "" },
+      "PAYPAL_CLIENT_ID": { "label": "API Key", "placeholder": "" },
+      "PAYPAL_SECRET": { "label": "Secret", "placeholder": "" },
+      "profileCategory1Enabled": { "label": "Enable profile category 1", "placeholder": "" },
+      "profileCategory1": { "label": "Profile category 1 name", "placeholder": "" },
+      "profileCategory2Enabled": { "label": "Enable profile category 2", "placeholder": "" },
+      "profileCategory2": { "label": "Profile category 2 name", "placeholder": "" },
+      "providersPerPage": {
+        "label": "Experts per page",
+        "placeholder": ""
+      },
+      "daysCanCancel": {
+        "label": "Min cancellation time (in days)",
+        "placeholder": "Minimum # of days that cancellations are allowed"
+      },
+      "enterInterval": {
+        "label": "Max chat entry delay (minutes)",
+        "placeholder": "Maximum minutes before the entry to the chat is disallowed"
+      },
+      "bookingAllowedHours": {
+        "label": "Allowed booking time before appointment (hours)",
+        "placeholder": "# of hours after which the user is allowed to book"
+      },
+      "currency": {
+        "label": "Currency",
+        "placeholder": ""
+      },
+      "bookingCharge": {
+        "label": "Booking commision (in cents)",
+        "placeholder": ""
+      },
+      "enabledPayments": {
+        "label": "Enabled payment methods",
+        "placeholder": ""
+      },
+      "CLICKATELL_FROM": {
+        "label": "SMS Sender ID",
+        "placeholder": ""
+      }
+   },
+   "specialities": {
+    "name": {
+			"label": "Specialty",
+			"placeholder": "Insert specialty name"
+		},
+		"abbreviation": {
+			"label": "Abbreviation",
+			"placeholder": "Insert specialty abbreviation (optional)"
+		}
+   },
+   "expertise": {
+    "name": {
+			"label": "Name",
+			"placeholder": "Insert expertise name"
+    },
+    "shortName": {
+			"label": "Name (Short)",
+			"placeholder": "Insert expertise short name"
+    },
+    "itemCode": {
+			"label": "Code",
+			"placeholder": "Insert expertise code"
+    },
+    "specialities": {
+			"label": "Specialties",
+			"placeholder": "Insert expertise specialties"
+		}
+   },
+   "ntemplates": {
+    "type": {
+			"label": "Type"
+    },
+    "action": {
+			"label": "Function"
+    },
+    "receiver": {
+			"label": "Receiver"
+    },
+    "topic": {
+			"label": "Topic"
+		},
+    "content": {
+			"label": "Content"
+		}
+   }
+  }
+}

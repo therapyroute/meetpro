@@ -1,0 +1,25 @@
+<!-- All menubars should be in here -->
+<template name="mpNavbar">
+  <header id="header">
+      <nav class="navbar navbar-default main-menu">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <div class="navbar-brand logo">
+            <a href="{{logoLink}}">
+      				<img src={{appLogo}} class="img-rounded" alt="">
+      			</a>
+          </div>
+        </div>
+    </nav>
+  </header>
+</template>
+
+<template name="i18nDropdown">
+  <span class="tap-i18n-dropdown">
+    <select class="form-control">
+      {{#each availableLangs}}
+        <option value="{{tag}}" {{selected}}>{{toUpper tag}}</option>
+      {{/each}}
+    </select>
+  </span>
+</template>

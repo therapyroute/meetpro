@@ -1,0 +1,50 @@
+<!-- mainLayout -->
+<template name="mainLayout">
+  {{> sAlert}}
+    <div class="wrapper">
+      {{#if currentUser}}
+        {{> tmplSidebar}}
+      {{/if}}
+      <div id="content">
+        {{#if currentUser}}
+          <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        {{/if}}
+
+        <div class="container-fluid">
+          {{>Template.dynamic template=menu}}
+
+          <main>
+              {{>Template.dynamic template=content}}
+          </main>
+        </div>
+
+        {{> imFooter}}
+
+        <a href="#top" id="scroll-top"></a>
+      </div>
+    </div>
+</template>
+
+<template name="noSidebarLayout">
+  {{> sAlert}}
+  <div class="wrapper">
+    <div id="content">
+
+      <div class="container-fluid">
+        {{>Template.dynamic template=menu}}
+
+        <main>
+            {{>Template.dynamic template=content}}
+        </main>
+      </div>
+
+      {{> imFooter}}
+
+      <a href="#top" id="scroll-top"></a>
+    </div>
+  </div>
+</template>

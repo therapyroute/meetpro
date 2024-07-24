@@ -1,0 +1,6 @@
+.vscode/
+node_modules/
+private/google-cloud-service-key.pem
+workspace.code-workspace
+etc/
+.deploy/mup.js

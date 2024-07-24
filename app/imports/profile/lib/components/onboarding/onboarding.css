@@ -1,0 +1,106 @@
+/* h1 {
+  margin-bottom: 40px;
+}
+.main.container {
+  width: 60%;
+  min-width: 500px;
+  margin: 0 auto;
+  padding: 50px;
+} */
+
+.ui.steps {
+  margin-bottom: 40px;
+}
+
+.steps {
+  text-align: center;
+  position: relative;
+  margin-top: 20px
+}
+
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  color: lightgrey
+}
+
+#progressbar .active {
+  color: #673AB7
+}
+
+#progressbar li {
+  list-style-type: none;
+  font-size: 15px;
+  width: 50%;
+  float: left;
+  position: relative;
+  font-weight: 400
+}
+
+#progressbar #expert-information:before {
+  font-family: FontAwesome;
+  content: "\f0f0"
+}
+
+#progressbar #confirm:before {
+  font-family: FontAwesome;
+  content: "\f00c"
+}
+
+#progressbar li:before {
+  width: 50px;
+  height: 50px;
+  line-height: 45px;
+  display: block;
+  font-size: 20px;
+  color: #ffffff;
+  background: lightgray;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 2px 17px
+}
+
+#progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: lightgray;
+  position: absolute;
+  left: 0;
+  top: 25px;
+  z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+  background: #673AB7
+}
+
+.progress {
+  height: 20px
+}
+
+.progress-bar {
+  background-color: #673AB7
+}
+
+.fit-image {
+  width: 100%;
+  object-fit: cover
+}
+
+@media (min-width: 768px) {
+  .wizard {
+    margin: 0 10%;
+  }
+}
+
+@media (max-width: 768px) {
+  #progressbar li {
+    font-size: 90%;
+  }
+}
+
+#onboarding-wizard .btn-info {
+  margin-top: 10px;
+}

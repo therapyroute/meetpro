@@ -1,0 +1,38 @@
+<template name="tmplChat">
+  {{>sAlert}}
+    {{#if Template.subscriptionsReady}}
+        <head>
+            <title>{{_"chat_title"}}</title>
+        </head>
+        <body>
+            <div class="container-fluid">
+                {{#if isBookingChecked}}
+                <ol class="breadcrumb" id="breadcrumb">
+                  <li><a href="/" class="exitCall">{{_"m_home"}}</a></li>
+                  <li class="active">{{_"sb_chat"}}</li>
+                </ol>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading text-center clearfix">
+                          <h4>{{_"chat_with"}} {{partnerFullName}}</h4>
+                        </div>
+                        <div class="panel-body">
+                          <div id="jitsi-meet"></div>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="row text-center">
+                    <h2>{{_"booking_error"}}</h2>
+                </div>
+                {{/if}}
+            </div>
+        </body>
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>

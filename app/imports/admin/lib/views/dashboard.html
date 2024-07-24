@@ -1,0 +1,149 @@
+<template name="tmplAdminDashboard">
+  {{#unless isInRole 'admin'}}
+      {{> tmplNotPermitted}}
+  {{else}}
+      <div class="container-fluid">
+      <div class="row stats-row">
+        <h3>{{_"sb_dashboard_admin"}}</h3>
+        {{#if isSuperAdmin}}
+          <h6><i>(Super admin)</i></h6>
+        {{/if}}
+        {{#if isInactive}}
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="alert alert-danger" role="alert">Your Subscription is inactive. Please renew or contact administrator.</div>
+            </div>
+          </div>
+
+        {{/if}}
+        {{#if isSuperAdmin}}
+        <div class="col-sm-6 col-md-6 col-lg-6 stats-col">
+          <div class="small-box bg-aqua">
+          <a href="/admin/apps">
+            <div class="inner">
+                  <h3>{{_"my_apps"}}</h3>
+                  <p>{{_"my_apps_title"}}</p>
+            </div>
+            <div class="icon">
+                  <i class="fa fa-calendar"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+          </div>
+        </div>
+        {{else}}
+        <div class="col-sm-3 col-md-3 col-lg-3 stats-col">
+          <div class="small-box bg-aqua">
+          <a href="/admin/appointments">
+            <div class="inner">
+                  <h3>{{_"sb_appointments"}}</h3>
+                  <p>{{_"sb_allappointments"}}</p>
+            </div>
+            <div class="icon">
+                  <i class="fa fa-calendar"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+          </div>
+        </div>
+        {{/if}}
+        <div class="col-sm-3 col-md-3 col-lg-3 stats-col">
+          <div class="small-box bg-green">
+            <a href="/admin/users">
+            <div class="inner">
+            <h3>{{_"sb_users"}}</h3>
+            <p>{{_"sb_users_hover_admin"}}</p>
+            </div>
+            <div class="icon">
+            <i class="fa fa-users"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+            </a>
+          </div>
+        </div>
+      <!-- </div> -->
+      {{#unless isSuperAdmin}}
+      <!-- <div class="row"> -->
+        <div class="col-sm-3 col-md-3 col-lg-3 stats-col">
+          <div class="small-box bg-red">
+          <a href="/admin/params">
+          <div class="inner">
+              <h3>{{_"sb_params"}}</h3>
+              <p>{{_"sb_params_hover"}}</p>
+          </div>
+          <div class="icon">
+              <i class="fa fa-cogs"></i>
+          </div>
+          <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+          </div>
+        </div>
+        <!-- <div class="col-sm-6 col-md-6 col-lg-6">
+          <div class="small-box bg-blue">
+          <a href="/admin/tables">
+          <div class="inner">
+              <h3>{{_"appdata"}}</h3>
+              <p>{{_"appdata_text"}}</p>
+          </div>
+          <div class="icon">
+                <i class="fa fa-table"></i>
+          </div>
+          <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+          </div>
+        </div> -->
+      <!-- </div> -->
+      {{/unless}}
+      <!-- <div class="row"> -->
+        <div class="col-sm-3 col-md-3 col-lg-3 stats-col">
+          <div class="small-box bg-yellow">
+            <a href="/admin/stats">
+            <div class="inner">
+            <h3>{{_"sb_stats"}}</h3>
+            <p>{{_"sb_stats_hover"}}</p>
+            </div>
+            <div class="icon">
+            <i class="fa fa-bar-chart"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+            </a>
+          </div>
+        </div>
+        <!-- <div class="col-sm-6 col-md-6 col-lg-6">
+          <div class="small-box bg-light-blue">
+          <a href="/admin/logs">
+          <div class="inner">
+                <h3>{{_"sb_logs_short"}}</h3>
+                <p>{{_"sb_logs"}}</p>
+          </div>
+          <div class="icon">
+                <i class="fa fa-file-text-o"></i>
+          </div>
+          <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+          </a>
+          </div>
+        </div> -->
+      </div>
+      {{> tmplStatisticsAdminDashboard}}
+      <!-- <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          <div class="small-box bg-green">
+            <a href="/admin/financial">
+            <div class="inner">
+            <h3>{{_"inv_financial"}}</h3>
+            <p>{{_"inv_financial_hover"}}</p>
+            </div>
+            <div class="icon">
+            <i class="fa fa-credit-card"></i>
+            </div>
+            <div class="small-box-footer">{{_"st_more"}}&nbsp;<i class="fa fa-arrow-circle-right"></i></div>
+            </a>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+        </div>
+      </div> -->
+      
+      </div>
+  {{/unless}}
+</template>

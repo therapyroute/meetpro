@@ -1,0 +1,114 @@
+<!-- Contains a list of the associated providers/users -->
+
+<template name="tmplAppointments">
+  <div class="container-fluid">
+    <div class="row">
+      <h3>
+        {{_"my_appointments"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_appointments_hover"}}'></i>
+      </h3>
+      {{#if isAdmin}}
+        <p><a class="btn-info btn-sm" href='/agenda'>{{_"my_agenda"}}</a></p><br>
+      {{/if}}
+      <a href="#" id="toggleFilters" class="btn-success btn-sm" style="margin-bottom: 5px;">
+        {{_"ap_filters"}}
+      </a>
+      <br><br>
+      <div id="filters" class="appt-filters" style="display: none">
+        <p style="display: inline-block; vertical-align: 36%"><strong>{{_"ap_start"}}:&nbsp;&nbsp;</strong></p>
+        <span class="segmented">
+          <label class="fltTime"><input type="radio" name="fltTime" value="all" checked><span class="label">{{_"as_viewall"}}</span></label>
+          <label class="fltTime"><input type="radio" name="fltTime" value="upcoming"><span class="label">{{_"upcoming"}}</span></label>
+          <label class="fltTime"><input type="radio" name="fltTime" value="past"><span class="label">{{_"past"}}</span></label>
+        </span>
+        <br>
+        <p style="display: inline-block; vertical-align: 36%"><strong>{{_"ap_status"}}:&nbsp;&nbsp;</strong></p>
+        <span class="segmented">
+        <label class="fltStatus"><input type="radio" name="fltStatus" value="all" checked><span class="label">{{_"as_viewall"}}</span></label>
+        <label class="fltStatus"><input type="radio" name="fltStatus" value="confirmed"><span class="label">{{_"confirmed"}}</span></label>
+        <label class="fltStatus"><input type="radio" name="fltStatus" value="completed"><span class="label">{{_"completed"}}</span></label>
+        <label class="fltStatus"><input type="radio" name="fltStatus" value="cancelled"><span class="label">{{_"cancelled"}}</span></label>
+        </span>
+        <br>
+        
+        <div id="pickerContainer" class="input-group col-sm-6">
+            <span class="input-group-addon" id="basic-addon1">{{_"daterange"}}:</span>
+          <input type="text" id="datePicker" name="dates" class=" form-control" aria-describedby="basic-addon1">
+        </div>
+        
+        {{#if canSelect}}
+          <div class="row">
+            <div class="col-sm-3">
+              <label for="userId" class="control-label">{{_"ap_user"}}</label>
+              <select id='userId' name='userId' class="user-filter" style="width: 100%">
+                <option value=''>''</option>
+                {{#each pr in allUsers}}
+                  <option value={{pr.value}}>{{pr.label}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="col-sm-3">
+                <label for="providerId" class="control-label">{{_"ap_provider"}}</label>
+                <select id='providerId' name='providerId' class="provider-filter" style="width: 100%">
+                  <option value=''>''</option>
+                  {{#each pr in allProviders}}
+                    <option value={{pr.value}}>{{pr.label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+          </div>
+        {{/if}}
+        <p style="margin-top: 5px;"><button id='resetFilters' class='btn btn-danger'>{{_"reset"}}</button></p>
+        <p style="margin-top: 5px;">{{{_"name_tip"}}}</p>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+          {{#if Template.subscriptionsReady}}
+            {{#if hasBookings}}
+              {{#if hasAssoc}}
+                <h5>{{_"with"}} {{assocFullName}}
+                  {{#if canReset}}
+                    &nbsp;&nbsp;<button id="resetAssocBtn" type="button" class="btn-default btn-xs">{{_"reset"}}</button>
+                  {{/if}}
+                </h5>
+              {{/if}}
+              <div class="entry-content">
+                  {{> reactiveTable 
+                    collection="allUserAppts" 
+                    settings=tblSettings 
+                    fields=displayedFields 
+                    filters=fltrs 
+                    class="table table-striped table-bordered"
+                  }}
+              </div>
+            {{else}}
+                <h3>{{_"no_appts"}}</h3>
+                {{#if isProvider}}
+                  <blockquote>
+                    <p class="lead">{{{_"no_appts_prov"}}}</p>
+                  </blockquote>
+                {{else}}
+                  <blockquote>
+                    <p class="lead">{{{_"no_appts_usr" "/experts" }}}</p>
+                  </blockquote>
+                {{/if}}
+            {{/if}}
+          {{else}}
+            <div class="loading">{{> spinner}}</div>
+          {{/if}}
+        </div>
+      </div>
+      {{#if isAdmin 'admin'}}
+        <div class="row">
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <a href="/admin/addappointment" class="btn btn-success">{{_"add_appointment"}}</a>
+          </div>
+        </div>
+      {{/if}}
+      
+    </div>
+  </div>
+</template>
+
+<template name="noDataTemplate">
+  <h5>{{_"no_appointments"}}</h5>
+</template>

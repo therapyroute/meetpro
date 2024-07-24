@@ -1,0 +1,152 @@
+<template name="tmplQuestionnaires">
+    {{#if Template.subscriptionsReady}}
+        <h3>{{_"q_title"}}<br>
+          <small>{{_"q_subtitle"}}</small>
+        </h3>
+        <h5>{{_"ap_questions"}}:</h5>
+        {{#each questionnaire in questionnaires}}
+            <ol>
+            {{#each q in questionnaire.questions}}
+                <li>{{q}}</li>
+            {{/each}}
+            </ol>
+            <button class="btn btn-success editQuest" type="button" name="button">{{_"q_edit"}}</button>
+            <button class="btn btn-danger deleteQuest" type="button" name="button">{{_"msg_delete"}}</button>
+        {{else}}
+            <p>{{_"q_none"}}</p>
+            <button class="btn btn-success addQuest" type="button" name="button">{{_"q_add"}}</button>
+        {{/each}}
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>
+
+<template name="tmplQuestionnaireModal">
+        <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  {{#autoForm collection="Questions" id="updateQuestions" doc=currentQuestionnaire type="update"}}
+                    <div class="modal-header">
+                        <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="">{{_"q_edit1"}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                           <table class="table table-bordered table-condensed">
+                             <thead>
+                               <th>{{_"q_quest"}}</th><th>{{_"ap_action"}}</th>
+                               </thead>
+                               <tbody>
+                                 {{#afEachArrayItem name="questions"}}
+                                   <tr>
+                                     <td>{{> afFieldInput }}</td>
+                                     <td><button type="button" class="btn btn-primary autoform-remove-item"><span class="fa fa-trash"></span></button></td>
+                                   </tr>
+                                 {{/afEachArrayItem}}
+                               </tbody>
+                           </table>
+                           <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="questions"><span class="fa fa-plus"></span></button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success submitDialog">{{_"submit"}}</button>
+                        <button type="button" class="btn btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                    </div>
+                  {{/autoForm}}
+                </div>
+            </div>
+        </div>
+</template>
+
+<template name="tmplQuestionnaireAddModal">
+        <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  {{#autoForm collection="Questions" id="addQuestions" type="insert"}}
+                    <div class="modal-header">
+                        <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="">{{_"q_add1"}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                           <table class="table table-bordered table-condensed">
+                               <thead>
+                                 <th>{{_"q_quest"}}</th><th>{{_"ap_action"}}</th>
+                               </thead>
+                               <tbody>
+                                 {{#afEachArrayItem name="questions"}}
+                                   <tr>
+                                     <td>{{> afFieldInput }}</td>
+                                     <td><button type="button" class="btn btn-primary autoform-remove-item"><span class="fa fa-trash fa-fw"></span></button></td>
+                                   </tr>
+                                 {{/afEachArrayItem}}
+                               </tbody>
+                           </table>
+                           <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="questions"><span class="fa fa-plus fa-fw"></span></button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success submitDialog">{{_"submit"}}</button>
+                        <button type="button" class="btn btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                    </div>
+                  {{/autoForm}}
+                </div>
+            </div>
+        </div>
+</template>
+
+<template name="tmplQuestionnaireAnswer">
+    <div class="modal fade right" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">
+                    <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="">{{_"q_prov_q"}}</h4>
+                </div>
+                <div class="modal-body">
+                  {{#if Template.subscriptionsReady}}
+                    <div class="form-group">
+                      {{#if isProvider}}
+                          {{#if hasQuestions}}
+                              {{#if hasAnswers}}
+                                <ol>
+                                {{#each question in questions}}
+                                    <li><span>{{question.q}}</span>&nbsp;
+                                      <strong><span>{{question.a}}</span></strong></li>
+                                {{/each}}
+                                </ol>
+                              {{else}}
+                                <span>{{_"q_not_user"}}</span>
+                              {{/if}}
+                          {{else}}
+                              <span>{{_"q_yet"}}<br>
+                                {{{_"q_yet_txt"}}}</span>
+                          {{/if}}
+                      {{else}}
+                          {{#if canSubmit}}
+                            {{#each question in questions}}
+                              <span>{{question.q}}</span>&nbsp;
+                              <input type="text" class="userAnswer" value="{{question.a}}">
+                              <br>
+                            {{/each}}
+                          {{else}}
+                            <span>{{_"q_not_prov"}}</span>
+                          {{/if}}
+                      {{/if}}
+                    </div>
+                    {{else}}
+                      <div class="loading">{{> spinner}}</div>
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    {{#if canSubmit}}
+                      <button type="button" class="btn btn-success submitDialog">{{_"submit"}}</button>
+                    {{/if}}
+                    <button type="button" class="btn btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</template>

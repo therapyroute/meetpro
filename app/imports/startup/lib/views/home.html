@@ -1,0 +1,177 @@
+<!-- 404 error page template
+from: http://bootsnipp.com/snippets/featured/simple-404-not-found-page
+-->
+<template name="tmpl404Page">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    {{_"nf_h1"}}</h1>
+                <h2>
+                    {{_"nf_h2"}}</h2>
+                <div class="error-details">
+                    {{_"nf_details"}}
+                </div>
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>{{_"m_home"}} </a>
+                        <a href="/contact" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span> {{_"m_contact"}} </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<!-- Not permitted route template
+-->
+<template name="tmplNotPermitted">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    {{_"np_h1"}}</h1>
+                <h2>
+                    {{_"np_h2"}}</h2>
+                <div class="error-details">
+                    {{_"np_details"}}
+                </div>
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>&nbsp;{{_"m_home"}} </a>
+                        <a href="/contact" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span>&nbsp;{{_"m_contact"}} </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<template name="tmplNotActive">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="error-template">
+                  <h1>Error</h1>
+                  <h2>App access blocked</h2>
+                  <div class="error-details">
+                    App Subscription is inactive. Please renew or contact administrator.
+                  </div>
+                  <div class="error-actions">
+                      <a href="/" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>&nbsp;{{_"m_home"}} </a>
+                          <a href="/contact" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span>&nbsp;{{_"m_contact"}} </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
+
+<template name="tmplWelcome">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/images/online_party.png" alt="party">
+            </div>
+            <div class="col-md-8">
+                <div class="error-template">
+                    <h1>Welcome to MeetPro!</h1>
+                    <h2>New account creation was successful...</h2>
+                    <h4>
+                      Please check your email and click on the verification link to get started...
+                    </h4>
+                    <!-- <div class="error-actions">
+                        <a href="/" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>&nbsp;{{_"m_home"}} </a>
+                            <a href="/contact" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span>&nbsp;{{_"m_contact"}} </a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+  </template>
+
+<template name="tmplSignIn">
+  <div class="container-fluid">
+    <div class="fullscreen landing parallax signin-background" style={{appBkg}}>
+      <div style="background-color: rgba(0, 0, 0, 0.5); position: relative; width: 100%; display: block;">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-7 col-sm-6" style="margin-bottom: 20px;">
+              <!-- /.logo -->
+              <center>
+                <div >
+                  <a href="{{appLink}}"><img class="signin-logo" src={{appLogo}} alt="logo"></a>
+                </div>
+
+                <!-- /.main title -->
+                <h1 style="visibility: visible; color: #f0f5f7;">
+                    <a class="app-welcome" href={{appLink}} target="_blank">{{_"m_welcome" appName}}</a>
+                </h1>
+              
+
+              <!-- /.header paragraph -->
+              <div class="landing-text" style="visibility: visible; animation-name: fadeInUp;">
+                  <p style="color: #8ecfd5;">{{appDescription}}</p>
+              </div>
+
+              <!-- /.header button -->
+              <br>
+              {{# if is_multi_client}}
+                <div class="head-btn" style="visibility: visible; animation-name: fadeInLeft;">
+                  <!-- <a href="{{siteUrl}}/contact.php" target="_blank" class="btn btn-info">{{_"m_contact"}}</a>&nbsp;&nbsp; -->
+                  <a href="/sign-up" class="btn btn-warning">{{_"m_register"}}</a>&nbsp;&nbsp;
+                  <a href="/sign-in" class="btn btn-success">{{_"m_loginonly"}}</a>
+                </div>
+            {{/if}}
+              </center>
+            </div>
+              <!-- /.signup form -->
+              <div class="col-md-5 col-sm-6 col-xs-12">
+                {{> atForm}}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="tmplNotVerified">
+   {{>sAlert}}
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12">
+            <p class="alert alert-warning">{{{_"verifiedNotText"}}}<a href="#" class="resend-verification-link">{{_"verifiedNotLink"}}</a></p>
+         </div>
+      </div>
+   </div>
+</template>
+
+<template name="tmplWordpress">
+    <h5>Logging in to the app...</h5>
+    <p>Please ensure that your browser allows pop-up windows to proceed...</p>
+    <br><br>
+    <p>If for some reason the pop-up never shows,</p>
+    <button class='btn btn-info wp-login'>Click here</button>
+</template>
+
+<!-- <template name="tmplNotVerified2">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="error-template">
+                  <h1>{{_"np_h1"}}</h1>
+                  <h2>{{_"np_h2v"}}</h2>
+                  <div class="error-details">
+                      {{_"np_details"}}
+                  </div>
+                  <div class="error-actions">
+                      <a href="/" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>&nbsp;{{_"m_home"}} </a>
+                          <a href="/contact" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span>&nbsp;{{_"m_contact"}} </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  </template> -->
+  

@@ -1,0 +1,34 @@
+{
+  "name": "meetpro",
+  "private": true,
+  "scripts": {
+    "start": "meteor run --settings settings.json",
+    "start-prod": "meteor run --settings settings.json --production",
+    "start-vis": "meteor --settings settings.json --production --extra-packages bundle-visualizer"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.13.10",
+    "@paypal/checkout-server-sdk": "^1.0.2",
+    "babel-runtime": "^6.18.0",
+    "bcrypt": "^5.0.1",
+    "bootstrap": "3.3.7",
+    "braintree": "^2.21.0",
+    "braintree-web-drop-in": "^1.27.0",
+    "bufferutil": "^4.0.0",
+    "core-js": "^2.6.10",
+    "detectrtc": "^1.3.9",
+    "fullcalendar": "^2.9.1",
+    "highcharts": "^6.2.0",
+    "jquery": "^1.12.4",
+    "jstz": "^2.1.1",
+    "meteor-node-stubs": "^0.4.1",
+    "moment-timezone": "^0.5.33",
+    "node-pre-gyp": "^0.17.0",
+    "nouislider": "^11.0.0",
+    "socket.io": "^2.3.0",
+    "stripe": "^8.138.0",
+    "sweetalert": "^1.1.1",
+    "utf-8-validate": "^5.0.2",
+    "node-gyp": "^8.0"
+  }
+}

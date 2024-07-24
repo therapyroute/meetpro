@@ -1,0 +1,18 @@
+<template name="timeSlider">
+  
+  <div class="form-group">
+    <div class="row">
+        <label style="padding-left: 20px;">{{_"workhours"}}</label>  
+    </div>
+    <div class="row">
+      <div class="col-sm-4" style="line-height: 55px;">
+        {{_"workhours_from"}} <strong><span id="leftvalue"></span></strong> {{_"workhours_to"}} <strong><span id="rightvalue"></span></strong>
+      </div>
+      <div class="col-sm-8">
+        <div id='container' style='padding: 15px 15px 0px 0px;'>
+          <div id='slider'></div>
+        </div>    
+      </div>
+  </div>
+  </div>
+</template>

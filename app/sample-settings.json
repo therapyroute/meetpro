@@ -1,0 +1,31 @@
+{
+  "public" : {
+    "APP_NAME": "MeetPro",
+    "APP_URL": "http://localhost:80",
+    "APP_MODE": "dev",
+    "JITSI_SERVER": "meet.jit.si",
+    "messagesEnabled": "false",
+    "filesEnabled": "false",
+    "face2face": "true",
+    "DEFAULT_LANG": "en",
+    "reCaptcha": {
+      "showRecaptcha": false,
+      "siteKey": ""
+    }
+  },
+  "private": {
+    "ADMIN_EMAIL": "admin@someapp.com",
+    "SRV_TZ": "Europe/London",
+    "CLICKATELL_AUTH_TOKEN": "",
+    "EMAIL_URL": "",
+    "FB_APPID": false,
+    "FB_SECRET": false,
+    "GOOGLE_CID": false,
+    "GOOGLE_SECRET": false,
+    "REST_BEARER_TOKEN": ""
+  },
+  "GoogleAccessId": "",
+  "reCaptcha": {
+    "secretKey": ""
+  }
+}

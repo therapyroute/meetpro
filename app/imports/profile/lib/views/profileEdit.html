@@ -1,0 +1,513 @@
+<!-- Profile edit template -->
+<template name="tmplProfileEdit">
+    {{#autoForm collection="Meteor.users" 
+      id="updateProfileForm" 
+      doc=currentUser 
+      type='method-update' 
+      meteormethod="updateUserProfile"
+      autosave=true 
+    }}
+    <!-- check if provider -->
+      {{#unless isUserVerified}}
+        {{> tmplNotVerified}}
+      {{/unless}}
+      <div class="container-fluid">
+        <div class="row">
+            <ol class="breadcrumb" id="breadcrumb">
+              <li><a href="/">{{_"m_home"}}</a></li>
+              {{{theBreadcrumb}}}
+            </ol>
+            {{#if checkRole 'user,unconfirmed,admin,inactive'}}
+                <header class="top-area clearfix entry-header">
+                    <h3>
+                      {{_"my_profile"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_profile_hover"}}'></i>
+                    </h3>
+                </header>
+                <ul class="nav nav-tabs tabs-nav" role="tablist">
+                  <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">{{_"basic"}}</a></li>
+                  {{#if canShowAppointments}}
+                    <li role="presentation"><a href="#appointments" aria-controls="appointments" role="tab" data-toggle="tab">{{_"appointments"}}</a></li>
+                  {{/if}}
+                </ul>
+                <!-- tab content -->
+                <div class="tab-content tabs-container">
+                  <div role="tabpanel" class="tab-pane active" id="basic">
+                    <div class="col-md-4 col-sm-5 ">
+                      <div class="clearfix">
+                        <div id="provider-container">
+                          <!--expert image-->
+                            {{#if userPhoto}}
+                              <img src={{userPhoto}} alt="" class="img-responsive" />
+                              <br>
+                              <span title={{_"deleteimg"}}><button class="btn btn-danger btnRemove"><i class="fa fa-trash"></i></button></span>&nbsp;
+                            {{else}}
+                              {{_"nophoto"}}
+                              <br>
+                            {{/if}}
+                          <span title={{_"uploadimg"}}><button class="btn btn-primary" id="btnModal"><i class="fa fa-camera"></i></button></span>
+                          <br/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8 col-sm-7 entry-content">
+                      <h6>{{_"pr_personal"}}</h6>
+                      
+                      <div class="row">
+                        {{> afQuickField name='profile.user.name' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      </div>
+                      <div class="row">
+                        {{> afQuickField name='profile.user.surname' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>{{_"as_gender"}}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="form-group{{#if afFieldIsInvalid name='profile.user.gender'}} has-error{{/if}}">
+                            {{> afFieldInput name='profile.user.gender' type="select2" options=genderOpts select2Options=s2Opts style="width: 100%"}}
+                            {{#if afFieldIsInvalid name='profile.user.gender'}}
+                              <span class="help-block">{{afFieldMessage name='profile.user.gender'}}</span>
+                            {{/if}}
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="separator">
+                      <h6>{{_"pr_comms"}}</h6>
+                      <div class="row">
+                        {{> afQuickField name='profile.user.mobile' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      </div>
+                      <div class="row">
+                        {{#if isInRole 'admin'}}
+                          {{> afQuickField name='emails.0.address' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                          {{> afQuickField name='emails.0.verified' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{else}}
+                        <div class="col-md-4">
+                          <label>email</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" value="{{getEmail}}" disabled="true" style="background-color: #EAE8E8;" class='form-control'>  
+                        </div>
+                        {{/if}}
+                      </div>
+                      <div class="row">
+                        {{> afFormGroup 
+                          name="profile.user.allowed_notifications" 
+                          type="select-checkbox" 
+                          options=notificationOpts
+                          template="bootstrap3-horizontal" label-class="col-sm-4" input-col-class="col-sm-8"
+                        }}
+                        {{#if hasMessages}}
+                        {{> afFieldInput name='profile.user.email_notifications' style="margin-left: 15px; margin-bottom: 15px;"}}
+                        {{/if}}
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>{{_"pr_timezone"}}</label>
+                          </div>
+                          <div class="col-md-8">
+                          <div class="form-group{{#if afFieldIsInvalid name='profile.user.timezone'}} has-error{{/if}}">
+                                {{> afFieldInput name='profile.user.timezone' type="select2" options=timeZones select2Options=s2Opts style="width: 100%"}}
+                              {{#if afFieldIsInvalid name='profile.user.timezone'}}
+                                <span class="help-block">{{afFieldMessage name='profile.user.timezones'}}</span>
+                              {{/if}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>{{_"app_language"}}</label>
+                        </div>
+                        <div class="col-md-8">
+                          {{> i18nDropdown}}
+                        </div>
+                      </div>
+                      <hr class="separator">
+
+                      {{#unless isInRole 'admin'}}
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>{{_"iamexpert"}}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="checkbox" name="iamexpert" id="iamexpert" {{isUnconfirmed}}>
+                        </div>
+                      </div>
+                      {{/unless}}
+                      <!-- if unconfirmed provider -->
+                      {{#if isInRole 'unconfirmed'}}                        
+                        <div class="row">                          
+                          <div class="col-md-4">
+                            <label>{{_"ap_specialities"}}</label>    
+                          </div>
+                          <div class="col-md-8">
+                            {{#if Template.subscriptionsReady}}
+                            <div class="form-group{{#if afFieldIsInvalid name='profile.provider.specialities'}} has-error{{/if}}">
+                              {{> afFieldInput name="profile.provider.specialities" type="select2"
+                              multiple=true options=specOpts select2Options=s2Opts style="width: 100%"}}
+                              {{#if afFieldIsInvalid name='profile.provider.specialities'}}
+                                <span class="help-block">{{afFieldMessage name='profile.provider.specialities'}}</span>
+                              {{/if}}
+                            </div>
+                            {{else}}
+                              <div class="loading">{{> spinner}}</div>
+                            {{/if}}
+                          </div>
+                        </div>
+                      {{/if}}
+                      <br>
+                      
+                      <div class="row">
+                        {{#if canChangePass}}
+                          <div class="col-xs-3">
+                            <a href="{{passlink}}" class="btn btn-info">{{_"change_pass"}}</a>
+                          </div>
+                          <div class="col-xs-1"></div>
+                        {{/if}}
+                        <div class="col-xs-3">
+                          <a href="#" class="btn btn-danger" id="deleteAccount">{{_"delete_account"}}</a>
+                        </div>
+                      </div>
+                      {{#if isInRole 'admin'}}
+                      <br>
+                      <div class="form-group">  
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label>{{_"role"}}</label>
+                          </div>
+                          <div class="col-md-8">
+                            <select id='role' name='role' class="form-control">
+                              {{#each roleOpts}}
+                                <option value="{{value}}" {{isSelected}}>{{label}}</option>
+                              {{/each}}
+                            </select>  
+                          </div>
+                        </div>
+                        {{#if isSuperAdmin}}
+                        <br>
+                          <div class="row">
+                            <div class="col-md-4"><label>App</label></div>
+                            <div class="col-md-8">{{group}}</div>
+                          </div>
+                        {{/if}}
+                      </div>
+                      {{/if}}
+                      <br><br>
+                      <button type="submit" class="btn btn-primary">{{_"save"}}</button>
+                      <br>
+                    </div>
+                  </div>
+                  {{#if canShowAppointments}}
+                    <!-- tab4 -->
+                    <div role="tabpanel" class="tab-pane" id="appointments">
+                      <div class="table-responsive">
+                        {{> tmplAppointments}}
+                      </div>
+                    </div>
+                  {{/if}}
+                </div> <!-- of tabs -->
+            {{/if}}
+
+            <!-- if provider -->
+            {{#if checkRole 'provider'}}
+                <div class="entry-content">
+                  <h3>
+                    {{_"my_profile"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_profile_hover"}}'></i>
+                  </h3>
+                  <ul class="nav nav-tabs tabs-nav" role="tablist">
+                    <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">{{_"basic"}}</a></li>
+                    <li role="presentation"><a href="#professional" aria-controls="professional" role="tab" data-toggle="tab">{{_"professional"}}</a></li>
+                    <li role="presentation"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">{{_"bio"}}</a></li>
+                    <!-- <li role="presentation"><a href="#financial" aria-controls="financial" role="tab" data-toggle="tab">{{_"inv_financial"}}</a></li> -->
+                    {{#if canShowAppointments}}
+                      <li role="presentation"><a href="#appointments" aria-controls="appointments" role="tab" data-toggle="tab">{{_"appointments"}}</a></li>
+                      <li role="presentation"><a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab">{{_"schedule"}}</a></li>
+                    {{/if}}
+                  </ul>
+                  <!-- tab content -->
+                  <div class="tab-content tabs-container">
+                    <div role="tabpanel" class="tab-pane active" id="basic">
+                        <header class="top-area clearfix entry-header">
+                            <h2 class="entry-title">{{_"basic_info"}}</h2>
+                        </header>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-5 ">
+                                <div class="clearfix">
+                                    <!--expert image-->
+                                    <div id="provider-container">
+                                      <!--expert image-->
+                                        {{#if userPhoto}}
+                                          <img src={{userPhoto}} alt="" class="img-responsive" />
+                                          <br>
+                                          <span title={{_"deleteimg"}}><button class="btn btn-danger btnRemove"><i class="fa fa-trash"></i></button></span>&nbsp;
+              							            {{else}}
+              								            {{_"nophoto"}}
+                                          <br>
+                                        {{/if}}
+                                      <span title={{_"uploadimg"}}><button class="btn btn-primary" id="btnModal"><i class="fa fa-camera"></i></button></span>
+                                      <br/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-7 entry-content">
+                                <h6>{{_"pr_personal"}}</h6>
+                                
+                                <div class="row">
+                                  {{> afQuickField name='profile.user.name' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                                </div>
+                                <div class="row">
+                                  {{> afQuickField name='profile.user.surname' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <label>{{_"as_gender"}}</label>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="form-group{{#if afFieldIsInvalid name='profile.user.gender'}} has-error{{/if}}">
+                                      {{> afFieldInput name='profile.user.gender' type="select2" options=genderOpts select2Options=s2Opts style="width: 100%"}}
+                                      {{#if afFieldIsInvalid name='profile.user.gender'}}
+                                        <span class="help-block">{{afFieldMessage name='profile.user.gender'}}</span>
+                                      {{/if}}
+                                    </div>
+                                  </div>
+                                </div>
+                                <hr class="separator">
+                                <h6>{{_"pr_comms"}}</h6>
+                                <div class="row">
+                                  {{> afQuickField name='profile.user.mobile' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                                </div>
+                                <div class="row">
+                                  {{#if isInRole 'admin'}}
+                                    {{> afQuickField name='emails.0.address' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                                    {{> afQuickField name='emails.0.verified' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                                  {{else}}
+                                    <div class="col-md-4">
+                                      <label>email</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <input type="text" value="{{getEmail}}" disabled="true" style="background-color: #EAE8E8;" class="form-control">
+                                    </div>
+                                  {{/if}}
+                                </div>
+                                
+                                <div class="row">
+                                  {{> afFormGroup 
+                                    name="profile.user.allowed_notifications" 
+                                    type="select-checkbox" 
+                                    options=notificationOpts
+                                    template="bootstrap3-horizontal" label-class="col-sm-4" input-col-class="col-sm-8"
+                                  }}
+                                  {{#if hasMessages}}
+                                    {{> afFieldInput name='profile.user.email_notifications' style="margin-left: 15px; margin-bottom: 15px;"}}
+                                  {{/if}}
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <label>{{_"pr_timezone"}}&nbsp;&nbsp;{{{tzDiff}}}</label>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="form-group{{#if afFieldIsInvalid name='profile.user.timezone'}} has-error{{/if}}">
+                                          {{> afFieldInput name='profile.user.timezone' type="select2" options=timeZones select2Options=s2Opts style="width: 100%"}}
+                                        {{#if afFieldIsInvalid name='profile.user.timezone'}}
+                                          <span class="help-block">{{afFieldMessage name='profile.user.timezones'}}</span>
+                                        {{/if}}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <label>{{_"app_language"}}</label>
+                                  </div>
+                                  <div class="col-md-8">
+                                    {{> i18nDropdown}}
+                                  </div>
+                                </div>
+                                <hr class="separator">
+                                <div class="row">
+                                   <div class="col-md-9">
+                                      <label>
+                                        {{_"pr_custom_url"}}&nbsp;<i id="infoTooltip" class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"pr_custom_url_txt"}}'></i>
+                                      </label>
+                                      <div class="input-group">
+                                        <span class="input-group-addon">{{appUrl}}</span>
+                                        {{> afFieldInput name='profile.user.slug' class='form-control'}}
+                                      </div>
+                                   </div>
+                                   <div class="col-md-2">
+                                      <div style="margin-top: 26px;"></div>
+                                      <button id="copyUrl" class="btn btn-info">Copy URL&nbsp;<i class="fa fa-clone"></i></button>
+                                      <button id="checkUrl" disabled="true" class="btn btn-info">{{_"checkBtn"}}&nbsp;<i class="fa fa-check"></i></button>
+                                   </div>
+                                   <div class="col-md-1"></div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-9">
+                                     <label>
+                                       {{_"pr_custom_url2"}}&nbsp;<i id="infoTooltip" class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"pr_custom_url2_txt"}}'></i>
+                                     </label>
+                                     <div class="input-group">
+                                       <span class="input-group-addon">{{appUrl2}}</span>
+                                       
+                                     </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                     <div style="margin-top: 26px;"></div>
+                                     <button id="copyUrl2" class="btn btn-info">Copy URL&nbsp;<i class="fa fa-clone"></i></button>
+                                  </div>
+                                  <div class="col-md-1"></div>                                  
+                               </div>
+                            
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <a href="{{profileLink}}" class="btn btn-info">{{_"public_profile"}}</a>
+                                </div>
+                              </div>
+                              <br>
+                            
+                            <div class="row">
+                              {{#if canChangePass}}
+                                <div class="col-xs-3">
+                                  <a href="{{passlink}}" class="btn btn-info">{{_"change_pass"}}</a>
+                                </div>
+                                <div class="col-xs-1"></div>
+                              {{/if}}
+                              <div class="col-xs-3">
+                                <a href="#" class="btn btn-danger" id="deleteAccount">{{_"delete_account"}}</a>
+                              </div>
+                            </div>
+                            <br>
+                                {{#if isInRole 'admin'}}
+                                  <br>
+                                  <label>{{_"role"}}</label>
+                                  <div class="form-group">
+                                    <select id='role' name='role' class="form-control">
+                                      {{#each roleOpts}}
+                                        <option value="{{value}}" {{isSelected}}>{{label}}</option>
+                                      {{/each}}
+                                    </select>
+                                  </div>
+                                {{/if}}
+                                {{#if isSuperAdmin}}
+                                <br>
+                                  <div class="row">
+                                    <div class="col-md-4"><label>App</label></div>
+                                    <div class="col-md-8">{{group}}</div>
+                                  </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="professional">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="entry-title">{{_"professional"}}</h2>
+                            </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                <label>{{_"ap_specialities"}}</label>
+                                <br>
+                                {{#if Template.subscriptionsReady}}
+                                  <div class="form-group{{#if afFieldIsInvalid name='profile.provider.specialities'}} has-error{{/if}}">
+                                        {{> afFieldInput name="profile.provider.specialities" type="select2"
+                                        multiple=true options=specOpts select2Options=s2Opts style="width: 100%"}}
+                                      {{#if afFieldIsInvalid name='profile.provider.specialities'}}
+                                        <span class="help-block">{{afFieldMessage name='profile.provider.specialities'}}</span>
+                                      {{/if}}
+                                  </div>
+                                {{else}}
+                                    <div class="loading">{{> spinner}}</div>
+                                {{/if}}
+                              </div>
+                              <div class="col-md-6">
+                                {{> afQuickField name='profile.provider.price' step="1"}}
+                                <br>
+                                {{#if hasf2f}}
+                                  {{> afFieldInput name='profile.provider.allowf2f'}}
+                                  {{#if afFieldValueIs name="profile.provider.allowf2f" value=true}}
+                                    {{> afQuickField name='profile.provider.address'}}
+                                  {{/if}}
+                                  
+                                {{/if}}
+                                {{> afFieldInput name='profile.provider.displayRating'}}
+                                  {{#if providerRating}}
+                                    <p><small>({{ratingsText}})</small></p>
+                                  {{/if}}
+
+                              </div>
+                           </div>
+                           <div class="row">
+                             <div class="col-xs-12">
+                                {{>tmplQuestionnaires}}
+                             </div>
+                           </div>
+                      </div>
+
+                      <!-- tab2 -->
+                      <div role="tabpanel" class="tab-pane" id="bio">
+                        <h2 class="entry-title">{{_"bio"}}</h2>
+                        <label>{{_"shortbio"}}</label>
+                        {{> afFieldInput id="bioText" name='profile.provider.short_bio.personal'}}
+                        <div>
+                          <small>{{_"msg_rem"}}:
+                          <span id="Counter"></span>
+                          </small>
+                        </div>
+                        {{#if hasCategory1}}
+                          <label>{{category1}}</label>
+                          {{> afFieldInput id="category1" name='profile.provider.short_bio.category1'}}
+                        {{/if}}
+                        {{#if hasCategory2}}
+                          <label>{{category2}}</label>
+                          {{> afFieldInput id="category2" name='profile.provider.short_bio.category2'}}
+                        {{/if}}
+                      </div>
+
+                      <!-- tab3 -->
+                      <!-- <div role="tabpanel" class="tab-pane" id="financial">
+                          <header class="top-area clearfix entry-header">
+                              <h2 class="entry-title">{{_"inv_financial"}}</h2>
+                          </header>
+                        <div class="table-responsive">
+                          <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                              {{> tmplInvoices}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <h4>Viva Wallet</h4>
+                              {{> afQuickField name='profile.provider.viva.VP_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                              {{> afQuickField name='profile.provider.viva.VP_MERCHANT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                              {{> afQuickField name='profile.provider.viva.VP_API_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                              {{> afQuickField name='profile.provider.viva.VP_SOURCE' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                            </div>
+                          </div>                          
+                        </div>
+                      </div> -->
+                      {{#if canShowAppointments}}
+                        <!-- tab4 -->
+                        <div role="tabpanel" class="tab-pane" id="appointments">
+                          <div class="table-responsive">
+                            {{> tmplAppointments}}
+                          </div>
+                        </div>
+                        <!-- tab5 -->
+                        <div role="tabpanel" class="tab-pane" id="schedule">
+                          <div class="table-responsive">
+                            {{> tmplSchedule}}
+                          </div>
+                        </div>
+                      {{/if}}  
+                    </div>
+
+                <button type="submit" class="btn btn-primary">{{_"save"}}</button>
+                <br>
+                <br>
+              </div>
+            {{/if}}
+        </div>
+    </div>
+
+    {{/autoForm}}
+</template>

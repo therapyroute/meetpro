@@ -1,0 +1,24 @@
+<template name="tmplBookings">
+  <div class="container-fluid">
+    <div class="row">
+      <ol class="breadcrumb" id="breadcrumb">
+        <li><a href="/">{{_"m_home"}}</a></li>
+        <li class="active">{{_"sb_appointments"}}</li>
+      </ol>
+      <center>
+        <span class="segmented">
+          <label><input type="radio" name="appts" value="table" checked><span class="label">{{_"btn_table"}}</span></label>
+          <label><input type="radio" name="appts" value="agenda"><span class="label">{{_"btn_agenda"}}</span></label>
+          
+        </span>
+      </center>
+    </div>
+    <div class="row">
+      {{#if isAgenda}}
+        {{> tmplAgenda}}
+      {{else}}
+        {{> tmplAppointments}}
+      {{/if}}
+    </div>
+  </div>
+</template>

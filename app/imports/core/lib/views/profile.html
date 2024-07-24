@@ -1,0 +1,137 @@
+<template name="tmplProfile">
+    {{#if Template.subscriptionsReady}}
+      {{#if currentProvider}}
+        {{#with prProfile}}
+          {{#with profile}}
+            <div id="provider-container" class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-default background">
+                    <div class="panel-body">
+                      <div class="row">
+                        <center>
+                          <img src={{userPhoto user.photo}} class="img-responsive" />
+                          <h2 class="mainh3">{{user.title}} {{user.name}} {{user.surname}}</h2>
+                        </center>
+                      </div>
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3 col-sm-3">
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                          {{#unless isProvider}}
+                            <center>
+                              <a class="btn-lg btn-success" href="{{bookingLink}}" id="bookingLink"><strong>{{_"booknow"}}</strong></a>
+                            </center>
+                          {{/unless}}
+                        </div>
+                        {{#if displayRating}}
+                          <div class="col-md-3 col-sm-3">
+                            <div class="provider-rating">
+                              <center>
+                                <p><strong>{{_"pr_ratingstitle"}}</strong></p>
+                                {{> starsRating id="providerRating" rating=providerRating}}
+                                <small>{{providerRatingsText}}</small>
+                              </center>
+                            </div>
+                          </div>
+                        {{/if}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- provider panels (how a user views an associated provider) -->
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title"><div class="expert_user"><img src="/images/expert_icon1.png" /></div>&nbsp;&nbsp; {{_"professional"}}</h2>
+                    </div>
+                    <div class="panel-body">
+                      <article class="experts-single">
+                        <div class="doc-schedule clearfix">
+                              <p><strong>{{_"specialities"}}:</strong><span>{{specs}}</span></p>
+                              <!-- <p><strong>{{_"expertise"}}:</strong><span>{{ provider.expertise}}</span></p> -->
+                            <!-- {{#if currentUser}} -->
+                                <p><strong>{{_"price"}}:</strong><span>€ {{ provider.price}}</span></p>
+                                <p><strong>{{_"duration"}}:</strong><span>{{ provider.schedule.duration}}&nbsp;minutes</span></p>
+                            <!-- {{/if}} -->
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title"><div class="expert_bio"><img src="/images/expert_icon4.png" /></div>&nbsp;&nbsp;{{_"shortbio"}}</h2>
+                    </div>
+                    <div class="panel-body">
+                      <article class="experts-single">
+                        <div class="doc-schedule clearfix">
+                          {{#if provider.short_bio.personal}}
+                            <p><span>{{{ provider.short_bio.personal}}}</span></p>
+                          {{else}}
+                            <p>{{_"provider_no_cv"}}</p>
+                          {{/if}}
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                {{#if provider.short_bio.category1}}
+                  <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h2 class="panel-title"><div class="expert_info"><img src="/images/expert_icon3.png" /></div>&nbsp;{{category1}}</h2>
+                      </div>
+                      <div class="panel-body">
+                        <div class="entry-content">
+                          {{#if provider.short_bio.category1}}
+                            <p><span>{{{ provider.short_bio.category1}}}</span></p>
+                          {{else}}
+                            <p>{{_"provider_no_data"}}</p>
+                          {{/if}}  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+                {{#if provider.short_bio.category2}}
+                  <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h2 class="panel-title"><div class="expert_info"><img src="/images/expert_icon3.png" /></div>&nbsp;{{category2}}</h2>
+                      </div>
+                      <div class="panel-body">
+                        <div class="entry-content">
+                          {{#if provider.short_bio.category2}}
+                            <p><span>{{{ provider.short_bio.category2}}}</span></p>
+                          {{else}}
+                            <p>{{_"provider_no_data"}}</p>
+                          {{/if}}                        
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          {{/with}}
+        {{/with}}
+      {{else}}
+         <div id="provider-container" class="container-fluid">
+            <div class="row">
+               <h3>{{_"not_found"}}</h3>
+               <blockquote>
+                  <p class="lead">{{{_"not_found_txt"}}}</p>
+               </blockquote>
+            </div>
+         </div>
+      {{/if}}
+    {{else}}
+        <div class="loading">{{> spinner}}</div>
+    {{/if}}
+</template>

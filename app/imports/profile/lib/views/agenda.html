@@ -1,0 +1,30 @@
+<template name="tmplAgenda">
+    {{#if isInRole 'user,provider,unconfirmed,admin'}}
+        <div class="container-fluid">
+            <div class="row">
+                <h3>
+                  {{_"my_agenda"}} &nbsp; <i id="infoTooltip" class="fa fa-info-circle small-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title='{{_"sb_agenda_hover"}}'></i>
+                </h3>
+            </div>
+            <div class="row">
+                {{>fullcalendar id="calendar" header=headerOpts
+                  firstDay=1
+                  height='auto'
+                  defaultView='month'
+                  allDaySlot=false
+                  slotEventOverlap=false
+                  events=fetchAll
+                  eventClick=onEventClicked
+                  eventRender = onEventRender
+                  minTime=workFrom
+                  maxTime=workTo
+                  locale=curLang
+                  timezone=userTZ
+                }}
+            </div>
+        </div>
+    {{else}}
+        <!-- should insert Not Permitted template here -->
+        {{> tmplNotPermitted}}
+    {{/if}}
+</template>

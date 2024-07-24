@@ -1,0 +1,26 @@
+<template name="imFooter">
+    <!--page footer-->
+    <footer id="main-footer" class="site-footer clearfix">
+        <div class="container-fluid">
+            <div class="footer-bottom clearfix">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <p>Powered by MeetPro</p>
+                    </div>
+                    <div class="col-sm-4">
+                      <p class="text-center"><a href="/terms-of-use">{{_"t_title"}}</a></p>
+                    </div>
+                    <!--footer social icons-->
+                    {{#if currentUser}}
+                        <div class="col-sm-4 clearfix">
+                            <ul class="footer-social-nav">
+                                <li><a href="/contact"><i class="fa fa-envelope"></i></a></li>
+                                <!-- <li><a target="_blank" href="#"><i class="fa fa-linkedin"></i></a></li> -->
+                            </ul>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </footer>
+</template>

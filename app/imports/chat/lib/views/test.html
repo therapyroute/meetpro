@@ -1,0 +1,39 @@
+<template name="tmplTestChat">
+  <div class="container-fluid">
+    <div class="row">
+        <header style="text-align: center;">
+            <h1>{{_"chat_testhdr"}}</h1>
+        </header>
+    </div>
+    <div class="row">
+      <div class="make-center">
+          <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
+          <!--<button id="open-room">Open Room</button>
+          <button id="join-room">Join Room</button>-->
+          <button id="open-or-join-room">{{_"chat_testbtn"}}</button>
+
+          <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="local-container">
+          <video id="localv" autoplay style='width:100%; height:"auto"; margin-top:5px' muted="muted"></video>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="remote-container">
+          <video id="remotev" autoplay style='width:100%; height="auto"; margin-top:5px'></video>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <a class="btn btn-info" href="/dashboard">{{_"sb_dashboard"}}</a>
+      &nbsp;&nbsp;
+      <button id="exitCall" type="button" class="btn btn-labeled btn-danger" title='{{_"chat_exit"}}'>
+          <span class="btn-label"><i class="fa fa-sign-out"></i>
+          </span>
+      </button>
+    </div>
+  </div>
+</template>

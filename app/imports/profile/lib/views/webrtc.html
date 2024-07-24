@@ -1,0 +1,61 @@
+<template name="tmplWebRTC">
+  <div class="container-fluid">
+    <h3>{{_"rtc_title"}}</h3>
+    <div class="row">
+      {{#if testsReady}}
+      <table class="table table-responsive">
+        <thead>
+          <th>{{_"rtc_head1"}}</th>
+          <th>{{_"rtc_head2"}}</th>
+        </thead>
+          {{#with rtc}}
+          <tbody>
+            <tr>
+              <td>{{_"rtc_os"}}</td>
+              <td>{{osName}} ({{_"rtc_ver"}}: {{osVersion}})</td>
+            </tr>
+            <tr>
+              <td>{{_"rtc_brow"}}</td>
+              <td>{{browser.name}} ({{_"rtc_ver"}}: {{browser.fullVersion}})</td>
+            </tr>
+            <tr>
+              <td>{{_"rtc_mob"}}</td>
+              <td>{{oput isMobileDevice}}</td>
+            </tr>
+            <tr>
+              <td>{{_"rtc_rtc"}}</td>
+              {{{tdoput isWebRTCSupported}}}
+            </tr>
+            <tr>
+              <td>{{_"rtc_cam"}}</td>
+              {{{cameras hasWebcam}}}
+            </tr>
+            <!--<tr>
+              <td>{{_"rtc_out"}}</td>
+              {{{speakers hasSpeakers}}}
+            </tr>-->
+            <tr>
+              <td>{{_"rtc_in"}}</td>
+              {{{mics hasMicrophone}}}
+            </tr>
+            <tr>
+              <td>{{_"rtc_al_cam"}}</td>
+              {{{tdoput hasCamPermissions}}}
+            </tr>
+            <tr>
+              <td>{{_"rtc_al_mic"}}</td>
+              {{{tdoput hasMicPermissions}}}
+            </tr>
+          </tbody>
+          {{/with}}
+      </table>
+      <h4>{{_"rtc_result"}}</h4>
+      <blockquote>
+        {{{testResult}}}
+      </blockquote>
+      <a class="btn btn-info" href="/dashboard">{{_"sb_dashboard"}}</a>
+      <p>&nbsp;</p>
+      {{/if}}
+    </div>
+  </div>
+</template>

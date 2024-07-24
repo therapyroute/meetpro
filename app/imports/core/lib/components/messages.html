@@ -1,0 +1,73 @@
+<!-- The notifications dropdown template -->
+<template name="notificationsDropdown">
+    <span class="fa-stack fa-lg pull-left">
+      {{#if notificationCount}}
+        <i class="fa fa-{{dropdownIcon}} fa-stack-1x"></i>
+        <span class="label msg-label label-success">{{notificationCount}}</span>
+      {{else}}
+        <i class="fa fa-{{dropdownIconEmpty}} fa-stack-1x"></i>
+      {{/if}}
+    </span>
+</template>
+
+<!-- A bootstrap panel to display unread notifications -->
+<template name="notificationsPanelOld">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <span class="fa-lg"><i class="fa fa-envelope-o"></i></span>&nbsp;&nbsp;
+        {{_"msg_title"}}
+      </h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+        {{#each Notifications limit=5 unreadFirst=true}}
+          <a href="/messages/{{_id}}">
+            <li class="list-group-item notification {{notificationClass}}">
+              <i class="fa fa-{{icon}} text-{{class}}"></i>
+              {{title}}
+              <span class="pull-right" title="{{dateFormatLong date}}" style="border-bottom: 1px dashed gray">{{ago}}</span>
+            </li>
+          </a>
+        {{else}}
+          {{_"msg_none"}}
+        {{/each}}
+      </ul>
+    </div>
+    <div class="panel-footer"></div>
+  </div>
+ </template>
+
+<template name="notificationsPanel">
+    <div class="panel panel-warning x_panel x_blue fixed_height_390">
+      <div class="panel-heading x_title x_title_condensed">
+        <h5><i class="fa fa-comments-o"></i>&nbsp;&nbsp;{{_"msg_title"}}</h5>
+        <div class="clearfix"></div>
+      </div>
+      <div class="panel-body x_content x_content_condensed">
+        <ul class="list-unstyled timeline">
+          {{#each allNotifications limit=4 unreadFirst=true}}
+            <li>
+              <div class="block">
+                <div class="tags">
+                  <img src="{{userPhoto}}" alt="" class="img-circle"/>
+                </div>
+                <div class="block_content">
+                  <h6 class="title">
+                    <p>{{userFullName}}</p>
+                    <a href="/messages/{{_id}}">{{{isNew}}}{{title}}</a>
+                  </h6>
+                  <div class="byline">
+                    <span title="{{dateFormatLong date}}" style="border-bottom: 1px dashed gray">{{ago}}</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {{else}}
+          <br><br>
+            <p>{{_"msg_none"}}</p>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+</template>

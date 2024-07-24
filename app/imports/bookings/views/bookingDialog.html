@@ -1,0 +1,247 @@
+<template name="tmplBookingDialog">
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog payment-modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"booking_title"}}</h4>
+          <h6>{{_"with"}} {{providerFName}}</h6>
+        </div>
+        <div class="modal-body payment-modal-body">
+          <div class="appoint-page clearfix">
+            <div class="appoint-section clearfix">
+                    <article class="experts-single">
+                      <div class="doc-schedule1 clearfix">
+                        {{#unless currentUser}}
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-user-o fa-fw"></i>&nbsp;&nbsp;<strong>{{_"name"}}</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span><input type="text" class="form-control" name="uname" id="uname"></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-user-circle-o fa-fw"></i>&nbsp;&nbsp;<strong>{{_"surname"}}</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span><input type="text" class="form-control" name="usurname" id="usurname"></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-envelope-o fa-fw"></i>&nbsp;&nbsp;<strong>{{_"email"}}</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span><input type="text" class="form-control" name="uemail" id="uemail"></span>
+                          </div>
+                        </div>
+                        <br>
+                        {{/unless}}
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-calendar-check-o fa-fw"></i>&nbsp;&nbsp;<strong>{{_"ap_start"}}</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span>{{start}}</span>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-calendar-times-o fa-fw"></i>&nbsp;&nbsp;<strong>{{_"ap_end"}}</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span>{{end}}</span>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-xs-5 col-md-6">
+                            <i class="fa fa-credit-card fa-fw"></i>&nbsp;&nbsp;<strong>{{_"ap_price"}} ({{currency}})</strong>
+                          </div>
+                          <div class="col-xs-7 col-md-6">
+                            <span>{{price}}</span>
+                          </div>
+                        </div>
+                        <br>
+                        {{#if canHaveF2F}}
+                         <div class="row">
+                           <div class="col-md-6">
+                             <i class="fa fa-video-camera fa-fw"></i>&nbsp;&nbsp;<strong>{{_"ap_appttype"}}</strong>
+                             &nbsp;<i 
+                               id="addressTooltip" 
+                               class="fa fa-info-circle small-tooltip" 
+                               data-toggle="tooltip" 
+                               data-placement="bottom" 
+                               data-original-title='{{providerAddress}}'>
+                             </i>
+                           </div>
+                           <div class="col-md-6">
+                             <span>
+                               <select class="form-control" id="apptType">
+                                 <option value="videocall" selected>{{_"ap_appttype1"}}</option>
+                                 <option value="f2f">{{_"ap_appttype2"}}</option>
+                               </select>
+                             </span>
+                           </div>
+                         </div>
+                         <br>
+                         {{/if}}
+                        {{#if multiPayments}}
+                        <div class="row">
+                          <div class="col-md-6">
+                            <i class="fa fa-credit-card fa-fw"></i>&nbsp;&nbsp;<strong>{{_"ap_ptype"}}</strong>
+                          </div>
+                          <div class="col-md-6">
+                            <span>
+                              <select class="form-control" id="paymentType">
+                                {{{paymentOptions}}}
+                              </select>
+                            </span>
+                          </div>
+                        </div>
+                        
+                        
+                        {{/if}}
+                        <div class="row">
+                          <div class="col-xs-10 col-md-6">
+                            <p style="margin-top: 10px;">
+                              <i class="fa fa-gavel"></i>&nbsp;&nbsp;<small>{{{agreeText}}}</small>
+                            </p>
+                          </div>
+                          <div class="col-xs-2 col-md-6">
+                            <div class="checkbox">
+                              <input style="width: 15px; height: 15px;" type="checkbox" name="agree" id="agreeTerms" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-danger closeDialog" data-dismiss="modal">{{_"ap_close"}}</button>
+          <button type="button" class="btn btn-primary btn-success createBooking">{{_"ap_proceed"}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="tmplBraintreePayment">
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog payment-modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"bt_title"}}</h4>
+          <h6>{{subTitle}}</h6>
+        </div>
+        <div class="modal-body payment-modal-body">
+           <div><center><span id="spinnerTop">
+              <i class="fa fa-spinner fa-spin" style="font-size:28px"></i>&nbsp;{{_"pleasewait"}}
+           </span></center></div>    
+           <div class="row">
+              <div class="col-xs-12">
+                 <div id="dropin-container"></div>
+              </div>
+           </div>
+           <div id="disclaimer" style="padding: 10px 0 10px;"><small>{{_"bt_disc"}}</small></div>
+           <div style="margin-bottom: 5px;"><center><span id="spinner"></span></center></div>
+           <button type="button" id="submitBtn" class="btn btn-success">{{_"bt_paywith"}}
+           </button>
+           <!-- <button type="button" class="btn btn-danger closeDialog">{{_"cancel"}}</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="tmplVivaPayment">
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"vi_title"}}</h4>
+          <h6>{{subTitle}}</h6>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <blockquote>
+                <p class="lead">{{_"vi_redir"}}</p>
+              </blockquote>
+            </div>
+            <!-- <div class="row">
+              <button type="button" class="btn btn-danger closeDialog">{{_"cancel"}}</button>
+            </div> -->
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="tmplStripePayment">
+  <script src="https://js.stripe.com/v3/"></script>
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"stripe_title"}}</h4>
+          <h6>{{subTitle}}</h6>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <h5>{{_"stripe_redir"}}</h5>
+                <button class="btn btn-info" id="checkout-button">{{_"stripe_title"}}</button>
+              </div>
+            </div>
+            <br>
+            <!-- <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-danger closeDialog">{{_"cancel"}}</button>
+              </div>
+            </div> -->
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="tmplPaypalPayment">
+  <div class="modal fade in show" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close closeDialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="">{{_"paypal_title"}}</h4>
+          <h6>{{subTitle}}</h6>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div id="paypal-button-container"></div>
+              </div>
+            </div>
+            <br>
+            <!-- <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-danger closeDialog">{{_"cancel"}}</button>
+              </div>
+            </div> -->
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

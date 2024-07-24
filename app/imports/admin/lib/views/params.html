@@ -1,0 +1,184 @@
+<template name="tmplAdminParams">
+    <div class="container-fluid">
+      {{#if isInRole 'admin'}}
+        <div class="row">
+          <ol class="breadcrumb" id="breadcrumb">
+              <li><a href="/">{{_"m_home"}}</a></li>
+              <li class="active">{{_"params_header"}}</li>
+          </ol>   
+        </div>
+        
+        <div class="row">
+          <h3>{{_"params_header"}}</h3>
+          {{#autoForm 
+            collection="Params" 
+            id="editParams" 
+            type="method-update" 
+            meteormethod="updateParams"
+            doc=curDoc
+            template="bootstrap3"
+          }}
+              <ul class="nav nav-tabs tabs-nav" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">{{_"params_general"}}</a></li>
+                <li role="presentation"><a href="#numbers" aria-controls="numbers" role="tab" data-toggle="tab">{{_"params_numbers"}}</a></li>
+                <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">{{_"ap_payments"}}</a></li>
+                <li role="presentation"><a href="#specialties" aria-controls="specialties" role="tab" data-toggle="tab">{{_"ap_specialities"}}</a></li>
+              </ul>
+              <!-- tab content -->
+              <div class="tab-content tabs-container">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <legend>{{_"params_general"}}</legend>
+                      {{> afQuickField name='APP_NAME' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{> afQuickField name='APP_DESCRIPTION' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{> afQuickField name='APP_EMAIL' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{> afQuickField name='ADMIN_EMAIL' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    </div>
+                  </div>
+                  {{# if app_multi_client}}
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <legend>{{_"params_subs"}}</legend>
+                      {{> afQuickField name='plan' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" disabled="true"}}
+                      {{> afQuickField name='subscriptionStatus' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" disabled="true"}}
+                      {{> afQuickField name='subscriptionId' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" disabled="true"}}
+                    </div>
+                  </div>
+                  {{/if}}
+            
+                  {{> afQuickField name='ADMIN_SUMMARIES'}}
+                  <!-- Custom logo & background left for later -->
+                  <!-- <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label class='control-label' style='padding-top: 10%; padding-right:8px;'>{{_"app_logo"}}</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <img src={{appLogo}} alt="" class="img-responsive" />
+                    </div>
+                    <div class="col-sm-2">
+                      <div style='padding-top: 10%'>
+                          <span title={{_"uploadimg"}}><button class="btn btn-primary" id="btnModal"><i class="fa fa-image"></i></button></span>
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label class='control-label' style='padding-top: 10%; padding-right:8px;'>{{{_"login_bkg"}}}</label>
+                    </div>
+                    <div id='app-bkg' class="col-sm-4">
+                      <img src={{appBkg}} alt="" class="img-responsive" />
+                    </div>
+                    <div class="col-sm-2">
+                      <div style='padding-top: 10%'>
+                        <input id="bkg-inp" type='file' accept="image/png, image/jpeg, image/tiff, image/gif">
+                        <br>
+                        {{#if appBkg}}
+                          <span title={{_"deleteimg"}}><button class="btn btn-danger btnRemove"><i class="fa fa-trash"></i></button></span>&nbsp;
+                        {{/if}}
+                      </div>
+                    </div>
+                  </div> -->
+                  
+                  <div class="row">
+                    <div class="col-xs-12">
+                    {{> afQuickField name='SITE_URL' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    <!-- {{> afQuickField name='PRIMARY_LANG' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}} -->
+                    {{> afQuickField name='CLICKATELL_FROM' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}  
+                    <legend>{{_"params_profile"}}</legend>
+                    {{> afQuickField name='profileCategory1Enabled' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    {{#if afFieldValueIs name="profileCategory1Enabled" value=true}}
+                      {{> afQuickField name='profileCategory1' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    {{/if}}
+                    {{> afQuickField name='profileCategory2Enabled' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    {{#if afFieldValueIs name="profileCategory2Enabled" value=true}}
+                      {{> afQuickField name='profileCategory2' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                    {{/if}}
+                    <!-- <h5>REST API</h5>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">API Key</label>
+                      <div class="col-md-8 col-lg-8">
+                        {{curDoc.bearerToken}}&nbsp;&nbsp;&nbsp;
+                        <button type="button" id="btnToken" class="btn btn-large btn-default"><i class="fa fa-refresh"></i></button>
+                      </div>
+                    </div> -->
+                    </div>
+                  </div>
+                  
+                </div>
+              
+                <div role="tabpanel" class="tab-pane" id="numbers">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <legend>{{_"params_numbers"}}</legend>
+                      <!-- {{> afQuickField name='providersPerPage' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}} -->
+                      {{> afQuickField name='daysCanCancel' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{> afQuickField name='enterInterval' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{> afQuickField name='bookingAllowedHours' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}            
+                      {{> timeSlider}}
+                      <div class="row form-group">
+                        <div class="col-md-4">
+                          <label>{{_"workhours"}}:&nbsp;{{_"pr_timezone"}}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            {{> afFieldInput name='workhours_tz' type="select2" options=timeZones select2Options=s2Opts style="width: 100%"}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div role="tabpanel" class="tab-pane" id="payments">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <legend>{{_"ap_payments"}}</legend>
+                      <!-- {{> afQuickField name='bookingCharge' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}} -->
+                      {{> afQuickField name='enabledPayments' type="select2" multiple=true select2Options=s2popts options=s2paymentopts template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 100%"}}
+                      {{> afQuickField name="currency" type="select2" options=s2Currencies template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 40%"}}
+                      {{#if afFieldValueContains name="enabledPayments" value="paypal"}}
+                        <h5>Paypal</h5>
+                        {{> afQuickField name='PAYPAL_CLIENT_ID' id='PAYPAL_CLIENT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='PAYPAL_SECRET' id='PAYPAL_SECRET' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        <br><button class='btn-sm btn-warning paypal-check' style='margin-bottom: 10px;'>Validate</button><br>
+                      {{/if}}
+                      {{#if afFieldValueContains name="enabledPayments" value="braintree"}}
+                        <h5>BrainTree</h5>
+                        {{> afQuickField name='BT_MERCHANT_ID' id='BT_MERCHANT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='BT_PUBLIC_KEY' id='BT_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='BT_PRIVATE_KEY' id='BT_PRIVATE_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        <br><button class='btn-sm btn-warning bt-check' style='margin-bottom: 10px;'>Validate</button><br>
+                      {{/if}}
+                      {{#if afFieldValueContains name="enabledPayments" value="viva"}}
+                        <h5>Viva Wallet</h5>
+                        {{> afQuickField name='VP_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='VP_MERCHANT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='VP_API_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='VP_SOURCE' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                      {{/if}}
+                      {{#if afFieldValueContains name="enabledPayments" value="stripe"}}
+                        <script src="https://js.stripe.com/v3/"></script>
+                        <h5>Stripe</h5>
+                        {{> afQuickField name='STRIPE_PUBLIC_KEY' id='STRIPE_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+                        {{> afQuickField name='STRIPE_API_KEY' id='STRIPE_API_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}            
+                        <br><button class='btn-sm btn-warning stripe-check' style='margin-bottom: 10px;'>Validate</button><br>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="specialties">
+                  {{> tmplAdminTable}}
+                </div>
+              </div>
+            
+
+            <button type="submit" class="btn btn-primary">{{_"submit"}}</button>
+          {{/autoForm}}
+        </div>
+      {{else}}
+        {{> tmplNotPermitted}}
+      {{/if}}
+    </div>
+  </template>
+  

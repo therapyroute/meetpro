@@ -1,0 +1,163 @@
+<template name="tmplProvider">
+    <!--<div class="row">
+      <div class="col-md-10 col-sm-10 col-xs-8">
+        <div class="search">
+          <input id="providerSearchInput" class="form-control" type="search" placeholder='{{_"search_placeholder"}}' value="{{query}}">
+        </div>
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="col-md-10 col-sm-10 col-xs-8">
+        <div class="frmSearch">
+          <input class="form-control" type="text" id="search-box" placeholder={{_"search_placeholder"}} autocomplete="off"/>
+          <div id="suggestion-box"></div>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-4">
+        <button type="button" class="btn btn-sm btn-danger clearBtn" {{hasSearch}}>{{_"clearBtn"}}</button>
+      </div>
+    </div>
+    {{#if Template.subscriptionsReady}}
+    <br>
+      {{#if searching}}
+        <div class="loading">{{> spinner}}</div>
+      {{else}}
+        {{#if ProviderPublic}}
+          <div class="row">
+            {{#each ProviderPublic}}
+              <div class={{providerCols}}>
+                <div class="pr-card">
+                  {{#if featured}}
+                    <div class="pr-ribbon"><span>{{_"featured"}}</span></div>
+                  {{/if}}
+                  <img class="header-bg" width="250" height="70" src="/images/card-bg.png" />
+                  <div class="pr-avatar">
+                    <a href={{path}} title={{surname}}>
+                      <img src="{{image}}" alt="{{fullname}}" />
+                    </a>
+                  </div>
+                  <div class="content">
+                    <a href={{path}} title={{surname}}>
+                      <p>{{fullname}}</p>
+                    </a>
+                      <p>
+                        {{#each specialities}}
+                            {{#if last ../specialities this}}
+                                <a href="{{sUrl this}}" class="speciality">{{this}}</a>
+                            {{else}}
+                                <a href="{{sUrl this}}" class="speciality">{{this}}</a>,
+                            {{/if}}
+                        {{/each}}
+                      </p>
+                        <div class="col-xs-6">
+                          <a href={{path}} title='{{_"profile"}}' class="btn btn-default provider-button">
+                            <div class="prov-icon expert_profile_icon"></div>
+                            {{_"profile"}}
+                          </a>
+                        </div>
+                        <div class="col-xs-6">
+                          <a href={{bookingLink}} title='{{_"booknow"}}' id="bookingLink" class="btn btn-default provider-button">
+                            <div class="prov-icon expert_calendar_icon"></div>
+                            {{_"booknow_short"}}
+                          </a>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+          <div class="row">
+            <nav>
+              <ul class="pager">
+                <li>
+                  <a id="prevPage" href="{{prevPage}}" style="{{prevPageCss}}">
+                    <span aria-hidden="true">&larr;</span> {{_"previous"}}
+                  </a>
+                </li>
+                <li>
+                  &nbsp;{{curPage}} / {{totalPages}}&nbsp;
+                </li>
+                <li>
+                  <a id="nextPage" href="{{nextPage}}" style="{{nextPageCss}}">
+                    {{_"next"}} <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        {{else}}
+          <div class="row">
+              <h5>Nothing found for "{{query}}"...</h5>
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+</template>
+
+<template name="tmplProviders">
+    <div id="div_providers" class="experts-posts experts-page clearfix">
+        <div class="container-fluid">
+          <div class="row">
+            <ol class="breadcrumb" id="breadcrumb">
+              <li><a href="/">{{_"m_home"}}</a></li>
+              <li class="active">{{_"booknow"}}</li>
+            </ol>
+            <div class="blog-page-single clearfix">
+                    <div class="full-width-contents">
+                        <div class="entry-content">
+                            <h2>{{_"providers_title"}}</h2>
+                            <p>{{_"providers_text"}}</p>
+                            <h6 id="toggleHelp" style="cursor: pointer;">{{_"pr_help"}}&nbsp;<i class="fa fa-caret-down"></i></h6>
+                            <div id="searchHelp" class="search-text" style="display: none">
+                              <p>{{{_"search_instructions"}}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid isotope-wrapper text-center">
+            <div class="row">
+                <div id="isotope-container" class="clearfix">
+                    {{#if Template.subscriptionsReady}}
+                        {{> tmplProvider}}
+                    {{else}}
+                        <div class="loading">{{> spinner}}</div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
+<!--
+<template name="tmplProvidersHome">
+    {{#if featuredProviders}}
+      <div class="home-experts  clearfix">
+        <div class="slogan-section animated fadeInUp clearfix">
+            <h2>{{{_"featured_providers_title"}}}</h2>
+            <p>{{_"featured_providers_text"}}</p>
+        </div>
+        <div id="featuredSlider" class="flexslider">
+          <ul class="slides">
+            {{#each fProv in featuredProviders}}
+              <li>
+                <center>
+                  <a href={{fProv.path}}><img class="pr-home-avatar" src={{fProv.image}} alt="expert-2" /></a>
+                  <div class="text-content">
+                  <h5 class="entry-title"><a href={{fProv.path}}>{{fProv.fullname}}</a></h5>
+                  <div class="expert-departments">
+                      {{joinSpecs fProv.specialities}}
+                  </div>
+                  </div>
+                </center>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    {{/if}}
+</template>
+-->

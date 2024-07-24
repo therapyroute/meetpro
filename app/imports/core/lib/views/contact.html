@@ -1,0 +1,26 @@
+<template name="tmplContact">
+  <div class="clearfix">
+    <div class="container-fluid">
+      <!--contact form section-->
+      <div class="clearfix"></div>
+      <!--contact form-->
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <center>
+            <h2>{{_"cf_title"}}</h2>
+          </center>
+          {{#autoForm collection="Contact" id="contactForm" type="method" meteormethod="cfInsert"}}
+          {{> afQuickField name='name'}}
+          {{> afQuickField name='email'}}
+          {{> afQuickField name='message' type="textarea" rows=4}}
+          <br>
+          <button type="submit" class="btn btn-primary">{{_"submit"}}</button>
+          {{/autoForm}}
+          <br>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,152 @@
+<template name="steps_bootstrap3">
+  <ul class="nav nav-wizard">
+  {{#each wizard.steps}}
+    <li class="{{stepClass id}}">
+      {{#if wizard.route}}
+        <a href="{{pathForStep id}}">{{title}}</a>
+      {{else}}
+        <span>{{title}}</span>
+      {{/if}}
+    </li>
+  {{/each}}
+  </ul>
+</template>
+
+<template name="steps_template">
+  <div class="steps">
+    <ol id='progressbar'>
+    {{#each wizard.steps}}
+      <li class="{{activeStepClass id}}" id={{id}}>
+        {{#if pathForStep id}}
+          <a href="{{pathForStep id}}">{{title}}</a>
+        {{else}}
+          {{title}}
+        {{/if}}
+        </li>
+    {{/each}}
+    </ol>
+    <!-- <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+    </div> <br> -->
+  </div>
+</template>
+
+<template name="tmplOnboardingBasic">
+  {{> wizard id="onboarding-wizard" steps=steps stepsTemplate="steps_template" buttonClasses="btn btn-info"}}
+</template>
+
+<template name="onboardingGeneral">
+  <h3>Welcome to {{getSetting "APP_NAME"}}</h3>
+  <h4>Please fill in the following data to get started quickly,</h4>
+  <p>or <b><a href='#' id='logout'>logout</a></b> to start again later...</p>
+  {{#autoForm id="onboarding-general-form" doc=step.data schema=step.schema}}
+    {{> afQuickField name="name" template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 100%"}}
+    <div class="form-group">
+      <div class="col-md-4">
+        <label>Description (optional)</label>
+      </div>
+      <div class="col-md-8">
+        <div class="form-group">
+          {{> afFieldInput type="textarea" name="description" id="description" template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 100%"}}
+          <div class="pull-right">
+            Character count: <span id="Counter"></span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    
+    {{> afQuickField name="site_url" template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 100%"}}
+    {{> wizardButtons}}
+  {{/autoForm}}
+
+  
+</template>
+
+<template name="onboardingPayments">
+  <h4>Please select a payment gateway to accept payments</h4>
+  {{#autoForm id="paymentinformation" doc=step.data schema=step.schema}}
+
+    {{> afQuickField name="paymentMethod" template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" style="width: 100%"}}
+    {{#if afFieldValueIs name="paymentMethod" value="paypal"}}
+      <p style="margin: 15px;">Click <b><a href="/help/paypal_api.pdf" target="_blank">here</a></b> for help.</p>
+      {{> afQuickField name='PAYPAL_CLIENT_ID' id='PAYPAL_CLIENT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='PAYPAL_SECRET' id='PAYPAL_SECRET' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+    {{/if}}
+    {{#if afFieldValueIs name="paymentMethod" value="stripe"}}
+      <script src="https://js.stripe.com/v3/"></script>
+      <p style="margin: 15px;">Click <b><a href="/help/stripe_api.pdf" target="_blank">here</a></b> for help.</p>
+      {{> afQuickField name='STRIPE_PUBLIC_KEY' id='STRIPE_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='STRIPE_API_KEY' id='STRIPE_API_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}              
+    {{/if}}
+    {{#if afFieldValueIs name="paymentMethod" value="braintree"}}
+      <p style="margin: 15px;">Click <b><a href="https://developer.paypal.com/braintree/articles/control-panel/important-gateway-credentials" target="_blank">here</a></b> for help.</p>
+      {{> afQuickField name='BT_MERCHANT_ID' id='BT_MERCHANT_ID' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='BT_PUBLIC_KEY' id='BT_PUBLIC_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='BT_PRIVATE_KEY' id='BT_PRIVATE_KEY' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}  
+    {{/if}}
+    {{#if afFieldValueIs name="paymentMethod" value="none"}}
+      <p style="margin: 15px;">Set up a payment gateway later or choose not to receive electronic payments</p>
+    {{/if}}
+    {{> wizardButtons}}    
+    <!-- <button type="button" class="wizard-back-button btn btn-info">Back</button>
+    <button type="submit" class="wizard-next-button btn btn-info">Next</button> -->
+  {{/autoForm}}
+</template>
+
+<template name="onboardingExpert">
+  <h4>Set availability or add expert</h4>
+  <p>Set your availability or add another expert from your business</p>
+  {{#autoForm id="expertinformation" doc=step.data schema=step.schema}}
+    <div class="row">
+      {{> afQuickField name='isExpert' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+    </div>
+    {{#if afFieldValueIs name="isExpert" value="self"}}
+      <div class="row">
+      {{> afQuickField name='myname' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='mysurname' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='specialty' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='price' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8" step="1"}}
+      {{> afQuickField name='currency' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      </div>
+      <div class="row">
+        {{>tmplSchedule}}
+      </div>
+      <br>
+    {{/if}}
+    {{#if afFieldValueIs name="isExpert" value="insert"}}
+      <div class="row">
+      {{> afQuickField name='name' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='surname' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='specialty' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      {{> afQuickField name='email' template="bootstrap3-horizontal" label-class="col-md-4" input-col-class="col-md-8"}}
+      </div>
+    {{/if}}
+  
+    {{> wizardButtons}}    
+  {{/autoForm}}
+</template>
+
+<template name="onboardingComplete">
+  <h3>Congratulations!</h3>
+  
+  <div class="row">
+    <div class="col-md-8">
+      <p>{{who}} can now start accepting bookings at:</p>
+      <form class="form-inline">
+        <div class="form-group" style="width:70%">
+          <label for="bookingLink">Booking Link:</label>
+          <input type="text" id='bookingLink' name='bookingLink' class="form-control" disabled value={{linkDescription}} style="width:78%">
+          <button type="submit" id='copyUrl' class="btn btn-primary">Copy URL</button>    
+        </div>
+      </form>
+    </div>  
+  </div>
+  
+  <p>Share the above link or <a href='https://meetpro.live/faqs/' target='_blank'>embed it</a> at your website.</p>
+  <br>
+  <p>Next steps: {{{nextSteps}}}</p>
+  <br>
+  <a href='/dashboard' class='btn btn-success'>Close Wizard</a>
+</template>

@@ -1,0 +1,217 @@
+<template name="tmplEditAppointment">
+{{#if isInRole 'admin'}}
+  {{#if current_doc}}
+    {{#autoForm 
+      collection="Bookings" 
+      id="bookingUpdate" 
+      type="method-update" 
+      meteormethod="updateBooking"
+      doc=current_doc 
+      template="bootstrap3"
+    }}
+    <div class="container-fluid">
+        <div class="row">
+          <ol class="breadcrumb" id="breadcrumb">
+              <li><a href="/">{{_"m_home"}}</a></li>
+              <li><a href="/admin/appointments">{{_"sb_appointments"}}</a></li>
+              <li class="active">{{_"edit_appointment"}}</li>
+          </ol>   
+        </div>
+        <div class="box box-default">
+          <div class="box-body">
+            {{#if Template.subscriptionsReady}}
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="userId" class="control-label">{{_"ap_user"}}</label>
+                    {{> afFieldInput name='userId' type="select2" options=allUsers}}
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="providerId" class="control-label">{{_"ap_provider"}}</label>
+                    {{> afFieldInput name='providerId' type="select2" options=allProviders}}
+                  </div>
+                </div>
+            {{/if}}
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="start" class="control-label">{{_"ap_start"}}</label>
+                    {{> afFieldInput name='start' type='bootstrap-datetimepicker' dateTimePickerOptions=dpOptions}}
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="end" class="control-label">{{_"ap_end"}}</label>
+                    {{> afFieldInput name='end' type='bootstrap-datetimepicker' dateTimePickerOptions=dpOptions}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="status" class="control-label">{{_"ap_status"}}</label>
+                    {{> afFieldInput name='status' type="select2" options=statusOptions}}
+                  </div>
+                  <div class="col-sm-6">
+                    {{#if hasf2f}}
+                      <label for="apptType" class="control-label">{{_"ap_appttype"}}</label>
+                      {{> afFieldInput name='apptType' type="select2" options=appttypeOptions}}
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="price" class="control-label">{{_"ap_price"}}</label>
+                    {{> afFieldInput name='price'}}
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="duration" class="control-label">{{_"duration"}}</label>
+                    {{> afFieldInput name='duration'}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="createdAt" class="control-label">{{_"createdat"}}:&nbsp;</label>
+                    {{dateFormatShort createdAt}}
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="updatedAt" class="control-label">{{_"ap_updatedat"}}:&nbsp;</label>
+                    {{dateFormatShort updatedAt}}
+                  </div>
+                </div>
+
+          </div>
+        </div>
+
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{_"ap_payments"}}</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="payment" class="control-label">{{_"payment_type"}}</label>
+                  {{> afFieldInput name='payment' type="select2" options=paymentOptions}}
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-8">
+                  {{#if transactions}}
+                    <h5>{{_"ap_transactions"}}:</h5>
+                    <ul>
+                      {{#each tr in transactions}}
+                      <li>
+                        <p><strong>Type:</strong> {{tr.trans_type}}</p>
+                        <p><strong>Order Id:</strong> {{tr.trans_orderid}}</p>
+                        <p><strong>Status:</strong> {{tr.trans_status}}</p>
+                        <p><strong>Amount:</strong> {{tr.trans_amount}}</p>
+                        <p><strong>Extra Data:</strong> {{tr.trans_data}}</p>
+                        <p><strong>Updated at:</strong> {{dateFormatLong tr.updatedAt}}</p>
+                      </li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+          {{#if notifications}}
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{_"ap_notifications"}}</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <ul>
+                    {{#each not in notifications}}
+                    <li>
+                      <p><strong>Created At:</strong> {{dateFormatShort not.nCreated}}</p>
+                      <p><strong>Receiver:</strong> {{not.nReceiver}}</p>
+                      <p><strong>Status:</strong> {{not.nStatus}}</p>
+                      <p><strong>Type:</strong> {{not.nType}}</p>
+                    </li>
+                    {{/each}}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+          {{#if call}}
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{_"chat_call"}}</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  {{#with call}}
+                  <ul>
+                    <li><strong>User joined at:</strong> {{dateFormatShort userJoinedAt}}</li>
+                    <li><strong>Provider joined at:</strong> {{dateFormatShort providerJoinedAt}}</li>
+                    <li><strong>User is online:</strong> {{userOnline}}</li>
+                    <li><strong>Expert is online:</strong> {{providerOnline}}</li>
+                  </ul>
+                    {{#if messages}}
+                    <h5>{{_"msg_title"}}</h5>
+                      <ul>
+                      {{#each msg in messages}}
+                        <li><strong>Datetime: </strong>{{dateFormatShort msg.datetime}}, 
+                          <strong>Level: </strong>{{msg.level}}, 
+                          <strong>Message: </strong>{{msg.msg}}
+                        </li>
+                      {{/each}}
+                      </ul>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+          <br>
+          <button type="submit" class="btn btn-primary">{{_"ap_update"}}</button>
+    </div>
+    {{/autoForm}}
+  {{else}}
+    {{> tmpl404Page}}
+  {{/if}}
+{{else}}
+    {{> tmplNotPermitted}}
+{{/if}}
+</template>
+
+<template name="tmplAddAppointment">
+  <div class="container-fluid">
+    <div class="row">
+      <ol class="breadcrumb" id="breadcrumb">
+        <li><a href="/">{{_"m_home"}}</a></li>
+        <li><a href="/admin/appointments">{{_"sb_appointments"}}</a></li>
+        <li class="active">{{_"add_appointment"}}</li>
+      </ol>   
+    </div>
+    <div class="row">
+      {{#if Template.subscriptionsReady}}
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="userId" class="control-label">{{_"ap_user"}}</label>
+            <select id='userId' name='userId' class="user-filter" style="width: 100%">
+              <option value=''>''</option>
+              {{#each pr in allUsers}}
+                <option value={{pr.value}}>{{pr.label}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label for="providerId" class="control-label">{{_"ap_provider"}}</label>
+            <select id='providerId' name='providerId' class="provider-filter" style="width: 100%">
+              <option value=''>''</option>
+              {{#each pr in allProviders}}
+                <option value={{pr.value}}>{{pr.label}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      {{/if}}
+      {{#if bothSelected}}
+        {{> tmplBooking}}
+      {{/if}}
+      
+    </div>  
+  </div>
+</template>
