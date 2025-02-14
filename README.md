@@ -26,7 +26,7 @@ You can install MeetPro yourself. It's free, but you are responsible for managin
 
 ### Demo ###
 A demo of the app in dev mode can be found at:
-http://54.37.17.142:8000
+http://185.44.67.151/
 
 - Admin: admin@someapp.com
 - Expert: expert@someapp.com
